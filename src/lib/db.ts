@@ -5,9 +5,17 @@ import * as dotenv from 'dotenv';
 
 // Load the appropriate .env file
 const env = process.env.NODE_ENV || 'development';
-console.log('DEBUG - Current NODE_ENV:', env);
-console.log('DEBUG - Current working directory:', process.cwd());
-console.log('DEBUG - Attempting to load:', `.env.${env}`);
+
+// Debug all environment variables
+console.log('DEBUG - Database Configuration:', {
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_HOST: process.env.POSTGRES_HOST,
+  POSTGRES_DB: process.env.POSTGRES_DB,
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD ? '***' : undefined,
+  POSTGRES_PORT: process.env.POSTGRES_PORT,
+  POSTGRES_SSL: process.env.POSTGRES_SSL,
+  NODE_ENV: process.env.NODE_ENV
+});
 
 if (env === 'development') {
   dotenv.config({ path: '.env.local' });
@@ -23,12 +31,12 @@ let pool: Pool | null = null;
  */
 function getEnvConfig(): PoolConfig {
   const config: PoolConfig = {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || '5432'),
-    ssl: process.env.DB_SSL === 'true',
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: parseInt(process.env.POSTGRES_PORT || '5432'),
+    ssl: process.env.POSTGRES_SSL === 'true',
     // Add some reasonable defaults for a web application
     max: env === 'production' ? 50 : 20, // More connections for production
     idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
@@ -42,7 +50,7 @@ function getEnvConfig(): PoolConfig {
     database: config.database,
     port: config.port,
     ssl: config.ssl,
-    DB_SSL_RAW: process.env.DB_SSL  // This will show us the exact value from env
+    POSTGRES_SSL_RAW: process.env.POSTGRES_SSL  // This will show us the exact value from env
   });
 
   // Validate required configuration
@@ -50,6 +58,7 @@ function getEnvConfig(): PoolConfig {
   const missingFields = requiredFields.filter(field => !config[field]);
 
   if (missingFields.length > 0) {
+    console.log('DEBUG - Missing database configuration:', missingFields);
     throw new Error(
       `Missing required database configuration: ${missingFields.join(', ')}. ` +
       `Make sure these are set in your ${env === 'development' ? '.env.local' : `.env.${env}`} file.`
@@ -64,18 +73,29 @@ export async function getPool(): Promise<Pool> {
 
   try {
     const config = getEnvConfig();
+    console.log('DEBUG - Creating new database pool with config:', {
+      user: config.user,
+      host: config.host,
+      database: config.database,
+      port: config.port
+    });
+    
     pool = new Pool(config);
 
     // The pool will emit an error on behalf of any idle clients
     // it contains if a backend error or network partition happens
     pool.on('error', (err) => {
-      console.error('Unexpected error on idle client', err);
-      // Don't let the application crash, but log the error
+      console.log('DEBUG - Database pool error:', err);
     });
+
+    // Test the connection
+    const client = await pool.connect();
+    console.log('DEBUG - Successfully connected to database');
+    client.release();
 
     return pool;
   } catch (error) {
-    console.error('Error creating database pool:', error);
+    console.log('DEBUG - Error creating database pool:', error);
     throw new Error('Failed to initialize database connection. Check your environment configuration.');
   }
 }
@@ -83,10 +103,12 @@ export async function getPool(): Promise<Pool> {
 export async function query<T>(text: string, params?: any[]): Promise<T[]> {
   const pool = await getPool();
   try {
+    console.log('DEBUG - Executing query:', { text, params: params?.map(p => typeof p === 'string' ? p.substring(0, 10) + '...' : p) });
     const result = await pool.query(text, params);
+    console.log('DEBUG - Query executed successfully');
     return result.rows;
   } catch (error) {
-    console.error('Error executing query:', error);
+    console.log('DEBUG - Query error:', error);
     throw error;
   }
 }

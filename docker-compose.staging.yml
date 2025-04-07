@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: tsunaimi-frontend-staging
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env.staging
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    depends_on:
+      - postgresql
+    networks:
+      - tsunaimi-network-staging
+
+  postgresql:
+    build:
+      context: .
+      dockerfile: docker/postgresql/Dockerfile
+    container_name: tsunaimi-postgresql-staging
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env.staging
+    volumes:
+      - tsunaimi-postgresql-data-staging:/var/lib/postgresql/data
+    networks:
+      - tsunaimi-network-staging
+
+networks:
+  tsunaimi-network-staging:
+    name: tsunaimi-network-staging
+
+volumes:
+  tsunaimi-postgresql-data-staging:
+    name: tsunaimi-postgresql-data-staging 

@@ -1,0 +1,42 @@
+{
+  "name": "tsunaimi-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:test": "tsx src/lib/test-db.ts",
+    "db:check": "tsx src/lib/check-submissions.ts",
+    "db:migrate": "tsx src/db/migrate.ts"
+  },
+  "dependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/pg": "^8.11.11",
+    "@vercel/kv": "^3.0.0",
+    "@vercel/postgres": "^0.10.0",
+    "dotenv": "^16.4.7",
+    "next": "^15.2.2",
+    "next-intl": "^4.0.2",
+    "pg": "^8.14.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^15.2.2",
+    "glob": "^10.3.10",
+    "lru-cache": "^10.2.0",
+    "postcss": "^8",
+    "rimraf": "^5.0.5",
+    "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5"
+  }
+}

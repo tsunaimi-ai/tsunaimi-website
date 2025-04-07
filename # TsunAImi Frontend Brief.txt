@@ -39,7 +39,7 @@ TsunAImi is an AI-powered LinkedIn candidate mapping tool that combines conversa
 ## Technical Architecture
 
 ### Frontend Stack
-- Next.js 14 (App Router)
+- Next.js 15 (App Router)
 - Tailwind CSS
 - TypeScript
 - React Query for API calls

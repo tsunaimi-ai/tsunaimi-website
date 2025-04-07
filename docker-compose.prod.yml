@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: tsunaimi-frontend-prod
+    ports:
+      - "3002:3000"
+    env_file:
+      - .env.prod
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    depends_on:
+      - postgresql
+    networks:
+      - tsunaimi-network-prod
+
+  postgresql:
+    build:
+      context: .
+      dockerfile: docker/postgresql/Dockerfile
+    container_name: tsunaimi-postgresql-prod
+    ports:
+      - "5434:5432"
+    env_file:
+      - .env.prod
+    volumes:
+      - tsunaimi-postgresql-data-prod:/var/lib/postgresql/data
+    networks:
+      - tsunaimi-network-prod
+
+networks:
+  tsunaimi-network-prod:
+    name: tsunaimi-network-prod
+
+volumes:
+  tsunaimi-postgresql-data-prod:
+    name: tsunaimi-postgresql-data-prod 
