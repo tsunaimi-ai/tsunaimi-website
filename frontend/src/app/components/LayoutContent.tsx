@@ -31,11 +31,10 @@ export default function LayoutContent({ locale, messages, children }: LayoutCont
       name: messages.common.nav.ai_agents,
       href: `/${locale}/ai-agents`,
       submenu: [
-        { name: messages.common.nav.ai_agents_submenu.overview, href: `/${locale}/ai-agents` },
-        { name: messages.common.nav.ai_agents_submenu.candidate_mapping, href: `/${locale}/ai-agents/candidate-mapping` }
+        { name: messages.common.nav.ai_agents_submenu.overview, href: `/${locale}/ai-agents` }
       ]
     },
-    { name: messages.common.nav.contact, href: `/${locale}/contact` }
+    { name: messages.common.nav.contact, href: '#contact' }
   ];
 
   return (

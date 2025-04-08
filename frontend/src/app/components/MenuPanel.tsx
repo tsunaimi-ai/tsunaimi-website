@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import LanguageSwitcher from './LanguageSwitcher';
-import LoginButton from './LoginButton';
+import { useState } from 'react';
+import ContactFormWrapper from './ContactFormWrapper';
 
 interface NavigationItem {
   name: string;
@@ -21,8 +22,14 @@ interface MenuPanelProps {
 }
 
 export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuPanelProps) {
-  const handleLinkClick = () => {
-    onClose();
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
+  const handleLinkClick = (href: string) => {
+    if (href === '#contact') {
+      setIsContactFormOpen(true);
+    } else {
+      onClose();
+    }
   };
 
   return (
@@ -64,7 +71,7 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
                         <Link 
                           href={subitem.href} 
                           className="text-[#7057A0] hover:text-[#251C6B] transition-colors block"
-                          onClick={handleLinkClick}
+                          onClick={() => handleLinkClick(subitem.href)}
                         >
                           {subitem.name}
                         </Link>
@@ -74,13 +81,22 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
                 </div>
               ) : (
                 <div key={item.name} className="mb-4">
-                  <Link 
-                    href={item.href} 
-                    className="text-xl font-semibold text-[#251C6B] hover:text-[#7057A0] transition-colors block"
-                    onClick={handleLinkClick}
-                  >
-                    {item.name}
-                  </Link>
+                  {item.href === '#contact' ? (
+                    <button
+                      onClick={() => handleLinkClick(item.href)}
+                      className="text-xl font-semibold text-[#251C6B] hover:text-[#7057A0] transition-colors block w-full text-left"
+                    >
+                      {item.name}
+                    </button>
+                  ) : (
+                    <Link 
+                      href={item.href} 
+                      className="text-xl font-semibold text-[#251C6B] hover:text-[#7057A0] transition-colors block"
+                      onClick={() => handleLinkClick(item.href)}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </div>
               )
             ))}
@@ -88,13 +104,25 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
             {/* Mobile-only options */}
             <div className="mt-8 pt-8 border-t border-[#E5E7EB]">
               <div className="flex flex-col gap-4">
-                <LoginButton locale={locale} onClick={handleLinkClick} className="text-xl font-semibold" />
                 <LanguageSwitcher locale={locale} className="text-xl font-semibold" />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Contact Form */}
+      {isContactFormOpen && (
+        <ContactFormWrapper 
+          isOpen={isContactFormOpen} 
+          onClose={() => {
+            setIsContactFormOpen(false);
+            onClose();
+          }} 
+          locale={locale} 
+          messages={null}
+        />
+      )}
     </>
   );
 } 

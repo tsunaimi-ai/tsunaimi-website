@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
-import LoginButton from './LoginButton';
 
 interface NavigationItem {
   name: string;
@@ -32,7 +31,6 @@ export default function NavigationClient({ locale, navigation, isMenuOpen, onMen
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <LoginButton locale={locale} className="hidden md:block" />
             <LanguageSwitcher locale={locale} className="hidden md:block" />
             <button
               onClick={onMenuToggle}
