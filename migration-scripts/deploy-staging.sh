@@ -142,6 +142,8 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/d
 # Step 6: Container Deployment
 echo "=== Step 6: Container Deployment ==="
 ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
+  # Pass RELEASE_NAME to the remote session
+  RELEASE_NAME="$RELEASE_NAME"
   
   # 6.1: Stop existing containers
   echo "6.1: Stopping existing containers..."
@@ -192,7 +194,7 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   done
   
   # 6.7: Verify tables were created
-echo "6.7: Verifying table creation..."
+  echo "6.7: Verifying table creation..."
   if ! /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -c "\dt" | grep -q "contact_submissions"; then
     echo "Error: Failed to create contact_submissions table"
     exit 1
