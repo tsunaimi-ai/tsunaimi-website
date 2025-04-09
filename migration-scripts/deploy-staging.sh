@@ -152,19 +152,21 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/d
 echo "=== Step 6: Container Deployment ==="
 ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   
-  # 6.1: Deploy Frontend
-  echo "6.1: Deploying Frontend..."
+  # 6.1: Deploy containers
+  echo "6.1: Deploying containers..."
   
-  # Stop and remove existing frontend container
-  echo "Stopping and removing existing frontend container..."
-  /volume1/@appstore/ContainerManager/usr/bin/docker stop tsunaimi-frontend-staging 2>/dev/null || true
-  /volume1/@appstore/ContainerManager/usr/bin/docker rm tsunaimi-frontend-staging 2>/dev/null || true
-  
-  # Start new frontend container
-  echo "Starting new frontend container..."
+  # Stop and remove existing containers
+  echo "Stopping and removing existing containers..."
   cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d frontend
+  for container in $(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml ps -q); do
+    /volume1/@appstore/ContainerManager/usr/bin/docker stop $container 2>/dev/null || true
+    /volume1/@appstore/ContainerManager/usr/bin/docker rm $container 2>/dev/null || true
+  done
   
+  # Start new containers
+  echo "Starting new containers..."
+  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d
+   
   # 6.2: Deploy PostgreSQL
   echo "6.2: Deploying PostgreSQL..."
   
