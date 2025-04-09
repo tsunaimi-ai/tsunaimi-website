@@ -160,8 +160,8 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   # 6.2: Load new images
   echo "6.2: Loading new images..."
   cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-v${NEW_VERSION}.tar
-  /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-v${NEW_VERSION}.tar
+  /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-${RELEASE_NAME}.tar
+  /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-${RELEASE_NAME}.tar
   
   # 6.3: Start containers
   echo "6.3: Starting containers..."
@@ -229,7 +229,7 @@ git push origin develop
 
 # 8.2: Release Branch
 echo "8.2: Updating release branch..."
-git checkout -b "release/v${NEW_VERSION}" 2>/dev/null || git checkout "release/v${NEW_VERSION}"
+git checkout -b "release/v${NEW_VERSION}" 2>/dev/null || git checkout "release/${NEW_VERSION}"
 git merge develop
 git push origin "release/v${NEW_VERSION}"
 git checkout develop
