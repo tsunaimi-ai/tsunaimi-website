@@ -1,53 +1,74 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+**/node_modules/
+**/.pnp
+**/.pnp.js
 
 # testing
-/coverage
+**/coverage/
 
 # next.js
-/.next/
-/out/
+**/.next/
+**/out/
 
 # production
-/build
+**/build/
+**/dist/
 
 # misc
-.DS_Store
-*.pem
+**/.DS_Store
+**/*.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**.pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+**/.env
+**/.env.*
+!**/.env.example
 
 # vercel
-.vercel
+**.vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+**/*.tsbuildinfo
+**/next-env.d.ts
 
 # Deployment scripts
-/scripts/
-../scripts/
+**/scripts/
+**/migrations/
 
 # Documentation
-docs/environments.md
-TECHNICAL.md
-*.env
-.env.*
-!.env.example
+**/docs/environments.md
+**/TECHNICAL.md
+**/*.env
+**/*.log
+**/*.bak
+**/*.swp
+
+# IDE
+**/.idea/
+**/.vscode/
+**/*.swp
+**/*.swo
+
+# OS
+**/Thumbs.db
+
+# Docker
+**/*.tar
+**/docker-compose.override.yml
+
+# Database
+**/*.sqlite
+**/*.sqlite3
+
+# Temporary files
+**/tmp/
+**/temp/
+**/*.tmp
+**/*.temp
