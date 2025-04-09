@@ -90,10 +90,6 @@ fi
 # Step 3: Build Phase
 echo "=== Step 3: Build Phase ==="
 
-# Build Docker images
-echo "Building Docker images..."
-docker-compose -f docker-compose.staging.yml build
-
 # Build and save frontend image
 echo "Building frontend image..."
 docker build -t tsunaimi-website-frontend:v${NEW_VERSION} -f docker/frontend/Dockerfile.staging .
@@ -117,12 +113,28 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "mkdir -p ${NAS_RELEASES_PATH}/${RELEASE_N
 
 # 4.3: Transfer files
 echo "4.3: Transferring files..."
-scp -i "$SSH_KEY" docker-compose.staging.yml "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
-scp -i "$SSH_KEY" .env.staging "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
-scp -i "$SSH_KEY" frontend-v${NEW_VERSION}.tar "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
-scp -i "$SSH_KEY" postgres-v${NEW_VERSION}.tar "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
-scp -i "$SSH_KEY" -r docker "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
-scp -i "$SSH_KEY" -r frontend "$NAS_USER@$NAS_IP:${NAS_RELEASES_PATH}/${RELEASE_NAME}/"
+sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
+cd /volume1/web/tsunaimi/releases/$RELEASE_NAME
+put docker-compose.staging.yml
+put .env.staging
+put frontend-v${NEW_VERSION}.tar
+put postgres-v${NEW_VERSION}.tar
+mkdir docker
+mkdir docker/frontend
+mkdir docker/postgresql
+put docker/frontend/Dockerfile.staging docker/frontend/
+put docker/postgresql/Dockerfile docker/postgresql/
+mkdir frontend
+mkdir frontend/scripts
+put frontend/scripts/init-db-docker.sql frontend/scripts/
+mkdir frontend/src
+mkdir frontend/src/db
+mkdir frontend/src/db/migrations
+put frontend/src/db/migrations/*.sql frontend/src/db/migrations/
+put frontend/package.json frontend/
+put frontend/package-lock.json frontend/
+bye
+EOF
 
 # Step 5: Staging Directory Setup
 echo "=== Step 5: Staging Directory Setup ==="
