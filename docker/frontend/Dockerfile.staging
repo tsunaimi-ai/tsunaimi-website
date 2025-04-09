@@ -6,11 +6,11 @@ WORKDIR /app
 # Set environment variables
 ENV NODE_ENV=staging
 ENV NEXT_PUBLIC_NODE_ENV=staging
-ENV PORT=3001
+ENV PORT=3000
 ENV NEXT_PUBLIC_API_URL=https://staging.tsunaimi.ai
 
 # Expose the correct port
-EXPOSE 3001
+EXPOSE 3000
 
 # Start the application with staging environment and correct port
-CMD ["sh", "-c", "NODE_ENV=staging NEXT_PUBLIC_NODE_ENV=staging PORT=3001 NEXT_PUBLIC_API_URL=https://staging.tsunaimi.ai node server.js"] 
+CMD ["sh", "-c", "NODE_ENV=staging NEXT_PUBLIC_NODE_ENV=staging PORT=3000 NEXT_PUBLIC_API_URL=https://staging.tsunaimi.ai node server.js"] 
