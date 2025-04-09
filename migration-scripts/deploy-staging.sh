@@ -93,12 +93,12 @@ echo "=== Step 3: Build Phase ==="
 # Build and save frontend image
 echo "Building frontend image..."
 docker build -t tsunaimi-website-frontend:v${NEW_VERSION} -f docker/frontend/Dockerfile.staging .
-docker save tsunaimi-website-frontend:v${NEW_VERSION} > frontend-v${NEW_VERSION}.tar
+docker save tsunaimi-website-frontend:v${NEW_VERSION} > frontend-${RELEASE_NAME}.tar
 
 # Build and save postgres image
 echo "Building postgres image..."
 docker build -t tsunaimi-website-postgresql:v${NEW_VERSION} -f docker/postgresql/Dockerfile .
-docker save tsunaimi-website-postgresql:v${NEW_VERSION} > postgres-v${NEW_VERSION}.tar
+docker save tsunaimi-website-postgresql:v${NEW_VERSION} > postgres-${RELEASE_NAME}.tar
 
 # Step 4: Release Setup
 echo "=== Step 4: Release Setup ==="
@@ -117,8 +117,8 @@ sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
 cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
 put docker-compose.staging.yml
 put .env.staging
-put frontend-v${NEW_VERSION}.tar
-put postgres-v${NEW_VERSION}.tar
+put frontend-${RELEASE_NAME}.tar
+put postgres-${RELEASE_NAME}.tar
 mkdir docker
 mkdir docker/frontend
 mkdir docker/postgresql
