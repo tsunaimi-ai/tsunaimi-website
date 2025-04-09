@@ -7,8 +7,8 @@ INITIAL_DIR="$(pwd)"
 # NAS Configuration
 NAS_USER="tsnm_user"
 NAS_IP="192.168.1.32"
-NAS_RELEASES_PATH="/volume1/web/tsunaimi/releases"
-NAS_STAGING_PATH="/volume1/web/tsunaimi/staging"
+NAS_RELEASES_PATH="web/tsunaimi/releases"
+NAS_STAGING_PATH="web/tsunaimi/staging"
 SSH_KEY="$HOME/.ssh/tsunaimi_deploy_key"
 
 # Get current version from package.json
@@ -112,7 +112,7 @@ echo "4.2: Creating release directory..."
 ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "mkdir -p ${NAS_RELEASES_PATH}/${RELEASE_NAME} && chmod 755 ${NAS_RELEASES_PATH}/${RELEASE_NAME}"
 
 # 4.3: Transfer files
-echo "4.3: Transferring files..."
+echo "4.3: Copying files to NAS..."
 sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
 cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
 put docker-compose.staging.yml
