@@ -158,9 +158,12 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   # Stop and remove existing containers
   echo "Stopping and removing existing containers..."
   cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  for container in $(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml ps -q); do
-    /volume1/@appstore/ContainerManager/usr/bin/docker stop $container 2>/dev/null || true
-    /volume1/@appstore/ContainerManager/usr/bin/docker rm $container 2>/dev/null || true
+  for service in $(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml config --services); do
+    container_name=$(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml ps -q $service)
+    if [ ! -z "$container_name" ]; then
+      /volume1/@appstore/ContainerManager/usr/bin/docker stop $container_name 2>/dev/null || true
+      /volume1/@appstore/ContainerManager/usr/bin/docker rm $container_name 2>/dev/null || true
+    fi
   done
   
   # Start new containers
@@ -170,18 +173,8 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   # 6.2: Deploy PostgreSQL
   echo "6.2: Deploying PostgreSQL..."
   
-  # Stop and remove existing postgres container
-  echo "Stopping and removing existing postgres container..."
-  /volume1/@appstore/ContainerManager/usr/bin/docker stop tsunaimi-postgresql-staging 2>/dev/null || true
-  /volume1/@appstore/ContainerManager/usr/bin/docker rm tsunaimi-postgresql-staging 2>/dev/null || true
-  
   # Remove any dangling volumes
   /volume1/@appstore/ContainerManager/usr/bin/docker volume prune -f
-  
-  # Start new postgres container
-  echo "Starting new postgres container..."
-  cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d postgresql
   
   # Read environment variables from .env.staging
   POSTGRES_USER=\$(grep '^POSTGRES_USER=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2)
