@@ -114,6 +114,7 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "mkdir -p ${NAS_RELEASES_PATH}/${RELEASE_N
 # 4.3: Transfer files
 echo "4.3: Transferring files..."
 sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
+mkdir /volume1/web/tsunaimi/releases/$RELEASE_NAME
 cd /volume1/web/tsunaimi/releases/$RELEASE_NAME
 put docker-compose.staging.yml
 put .env.staging
