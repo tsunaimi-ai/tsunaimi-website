@@ -11,17 +11,8 @@ NAS_RELEASES_PATH="web/tsunaimi/releases"
 NAS_STAGING_PATH="web/tsunaimi/staging"
 SSH_KEY="$HOME/.ssh/tsunaimi_deploy_key"
 
-# Get current version from package.json
-CURRENT_VERSION=$(grep '"version":' package.json | cut -d\" -f4)
-echo "Current version in package.json: $CURRENT_VERSION"
-
-# Suggest next version
-IFS='.' read -r -a version_parts <<< "$CURRENT_VERSION"
-SUGGESTED_VERSION="${version_parts[0]}.${version_parts[1]}.$((version_parts[2] + 1))"
-
-# Ask for version confirmation
-read -p "Enter new version [$SUGGESTED_VERSION]: " NEW_VERSION
-NEW_VERSION=${NEW_VERSION:-$SUGGESTED_VERSION}
+# Ask for version
+read -p "Enter new version (format X.Y.Z, e.g., 0.4.4): " NEW_VERSION
 
 # Validate version format
 if ! [[ $NEW_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -92,13 +83,13 @@ echo "=== Step 3: Build Phase ==="
 
 # Build and save frontend image
 echo "Building frontend image..."
-docker build -t tsunaimi-website-frontend:v${NEW_VERSION} -f docker/frontend/Dockerfile.staging .
-docker save tsunaimi-website-frontend:v${NEW_VERSION} > frontend-${RELEASE_NAME}.tar
+docker build -t tsunaimi-website-frontend:${RELEASE_NAME} -f docker/frontend/Dockerfile.staging .
+docker save tsunaimi-website-frontend:${RELEASE_NAME} > frontend-${RELEASE_NAME}.tar
 
 # Build and save postgres image
 echo "Building postgres image..."
-docker build -t tsunaimi-website-postgresql:v${NEW_VERSION} -f docker/postgresql/Dockerfile .
-docker save tsunaimi-website-postgresql:v${NEW_VERSION} > postgres-${RELEASE_NAME}.tar
+docker build -t tsunaimi-website-postgresql:${RELEASE_NAME} -f docker/postgresql/Dockerfile .
+docker save tsunaimi-website-postgresql:${RELEASE_NAME} > postgres-${RELEASE_NAME}.tar
 
 # Step 4: Release Setup
 echo "=== Step 4: Release Setup ==="
@@ -184,28 +175,25 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   # Wait for PostgreSQL to be ready
   echo "Waiting for PostgreSQL to be ready..."
   until /volume1/@appstore/ContainerManager/usr/bin/docker exec tsunaimi-postgresql-staging pg_isready -h localhost -p 5432 -U "\$POSTGRES_USER"; do
-    echo "PostgreSQL is not ready yet... waiting..."
-    sleep 3
+    sleep 1
   done
-  echo "PostgreSQL is ready!"
   
-# Run migration scripts directly
-echo "Running database migrations..."
-for migration in ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/*.sql; do
-  echo "Applying migration: $(basename "$migration")"
-  /volume1/@appstore/ContainerManager/usr/bin/docker cp "$migration" tsunaimi-postgresql-staging:/tmp/
-  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "/tmp/$(basename "$migration")"
-done
-
-# Additionally run the init script if it contains more than just migrations
-echo "Running initialization script..."
-/volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/scripts/init-db-docker.sql tsunaimi-postgresql-staging:/tmp/
-/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /tmp/init-db-docker.sql
-
+  # 6.5: Create user and database if they don't exist
+  echo "6.5: Creating user and database if they don't exist..."
+  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -c "CREATE USER \$POSTGRES_USER WITH PASSWORD '\$POSTGRES_PASSWORD';" 2>/dev/null || true
+  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -c "CREATE DATABASE \$POSTGRES_DB WITH OWNER \$POSTGRES_USER;" 2>/dev/null || true
   
-  # Verify table was created
-  echo "Verifying table creation..."
-  if ! /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -c "\dt contact_submissions" | grep -q "contact_submissions"; then
+  # 6.6: Apply migrations
+  echo "6.6: Applying database migrations..."
+  for migration in ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/*.sql; do
+    echo "Applying migration: \$(basename "\$migration")"
+    /volume1/@appstore/ContainerManager/usr/bin/docker cp "\$migration" tsunaimi-postgresql-staging:/tmp/
+    /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -f "/tmp/\$(basename "\$migration")"
+  done
+  
+  # 6.7: Verify tables were created
+echo "6.7: Verifying table creation..."
+  if ! /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -c "\dt" | grep -q "contact_submissions"; then
     echo "Error: Failed to create contact_submissions table"
     exit 1
   fi
