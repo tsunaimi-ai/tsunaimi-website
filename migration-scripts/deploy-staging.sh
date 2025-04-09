@@ -152,29 +152,24 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/d
 echo "=== Step 6: Container Deployment ==="
 ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   
-  # 6.1: Deploy containers
-  echo "6.1: Deploying containers..."
-  
-  # Stop and remove existing containers
-  echo "Stopping and removing existing containers..."
+  # 6.1: Stop existing containers
+  echo "6.1: Stopping existing containers..."
   cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  for service in $(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml config --services); do
-    container_name=$(/volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml ps -q $service)
-    if [ ! -z "$container_name" ]; then
-      /volume1/@appstore/ContainerManager/usr/bin/docker stop $container_name 2>/dev/null || true
-      /volume1/@appstore/ContainerManager/usr/bin/docker rm $container_name 2>/dev/null || true
-    fi
-  done
+  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml down
   
-  # Start new containers
-  echo "Starting new containers..."
+  # 6.2: Load new images
+  echo "6.2: Loading new images..."
+  cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
+  /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-v${NEW_VERSION}.tar
+  /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-v${NEW_VERSION}.tar
+  
+  # 6.3: Start containers
+  echo "6.3: Starting containers..."
+  cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
   /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d
-   
-  # 6.2: Deploy PostgreSQL
-  echo "6.2: Deploying PostgreSQL..."
   
-  # Remove any dangling volumes
-  /volume1/@appstore/ContainerManager/usr/bin/docker volume prune -f
+  # 6.4: Initialize PostgreSQL
+  echo "6.4: Initializing PostgreSQL..."
   
   # Read environment variables from .env.staging
   POSTGRES_USER=\$(grep '^POSTGRES_USER=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2)
