@@ -5,7 +5,7 @@ services:
       dockerfile: docker/frontend/Dockerfile.dev
     container_name: tsunaimi-frontend-dev
     ports:
-      - "3000:3000"
+      - "3000:3000"  # base + 0 for dev
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -13,6 +13,7 @@ services:
       - .env.development
     environment:
       - NODE_ENV=development
+      - PORT=3000
     depends_on:
       - postgresql
     networks:
@@ -24,7 +25,7 @@ services:
       dockerfile: docker/postgresql/Dockerfile
     container_name: tsunaimi-postgresql-dev
     ports:
-      - "5433:5432"
+      - "5432:5432"  # base + 1 for dev
     env_file:
       - .env.development
     volumes:

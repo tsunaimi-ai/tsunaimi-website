@@ -18,8 +18,21 @@ Required variables:
 - `DB_USER` - Database username
 - `DB_HOST` - Database host
 - `DB_NAME` - Database name
-- `DB_PORT` - Database port (default: 5433)
+- `DB_PORT` - Database port (follows pattern: dev=5432, staging=5532, prod=5632)
 - `DB_SSL` - Use SSL connection (true/false)
+
+## Port Configuration
+
+The project follows a standardized port mapping pattern:
+- Development (base + 0):
+  - Frontend: 3000:3000
+  - PostgreSQL: 5432:5432
+- Staging (base + 100):
+  - Frontend: 3100:3000
+  - PostgreSQL: 5532:5432
+- Production (base + 200):
+  - Frontend: 3200:3000
+  - PostgreSQL: 5632:5432
 
 ## Setting Up a New Environment
 

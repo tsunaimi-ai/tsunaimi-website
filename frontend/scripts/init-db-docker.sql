@@ -1,14 +1,21 @@
 -- Docker PostgreSQL Initialization Script
 -- This script should be run from inside the Docker container
--- Usage: docker exec -i [postgres-container-name] psql -U postgres -f /path/to/init-db-docker.sql
+-- Usage: docker exec -i [postgres-container-name] psql -U postgres -f /docker-entrypoint-initdb.d/init-db-docker.sql
 
--- Create user and database
-CREATE USER tsunaimi_postgres_user WITH PASSWORD 'tsunaimi_web_123';
-CREATE DATABASE tsunaimi_postgresql_dev;
-GRANT ALL PRIVILEGES ON DATABASE tsunaimi_postgresql_dev TO tsunaimi_postgres_user;
+-- Create user and database if they don't exist
+DO \$\$
+BEGIN
+  IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = :'POSTGRES_USER') THEN
+    EXECUTE format('CREATE USER %I WITH PASSWORD %L', :'POSTGRES_USER', :'POSTGRES_PASSWORD');
+  END IF;
+END
+\$\$;
 
--- Connect to the new database
-\c tsunaimi_postgresql_dev
+SELECT 'CREATE DATABASE ' || :'POSTGRES_DB' || ' WITH OWNER ' || :'POSTGRES_USER'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = :'POSTGRES_DB')\gexec
+
+-- Connect to the database
+\c :POSTGRES_DB
 
 -- Create contact submissions table
 CREATE TABLE IF NOT EXISTS contact_submissions (
@@ -27,5 +34,5 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
 );
 
 -- Grant permissions on the table
-GRANT ALL PRIVILEGES ON TABLE contact_submissions TO tsunaimi_postgres_user;
-GRANT USAGE, SELECT ON SEQUENCE contact_submissions_id_seq TO tsunaimi_postgres_user; 
+GRANT ALL PRIVILEGES ON TABLE contact_submissions TO :POSTGRES_USER;
+GRANT USAGE, SELECT ON SEQUENCE contact_submissions_id_seq TO :POSTGRES_USER; 

@@ -1,7 +1,7 @@
 # NAS Deployment Guide
 
 ## Architecture Overview
-- PostgreSQL runs in Docker container on NAS (port 5433)
+- PostgreSQL runs in Docker container on NAS (port 5532 for staging)
 - Website files deployed directly on NAS
 - Environment configuration via `.env.staging`
 
@@ -28,7 +28,7 @@
    DB_USER=postgres
    DB_HOST=localhost
    DB_NAME=tsunaimi_staging
-   DB_PORT=5433
+   DB_PORT=5532  # base + 100 for staging
    DB_SSL=false  # Since we're connecting locally on NAS
    ```
 
@@ -85,5 +85,8 @@
 
 ## Notes
 - Docker container persists data in a volume
-- Port 5433 is used to avoid conflicts with potential local PostgreSQL installations
+- Port mapping follows the pattern:
+  - Development: base + 0 (3000, 5432)
+  - Staging: base + 100 (3100, 5532)
+  - Production: base + 200 (3200, 5632)
 - SSL is disabled for local Docker connections on NAS 
