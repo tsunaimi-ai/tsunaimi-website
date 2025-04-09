@@ -184,16 +184,24 @@ ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
   # Wait for PostgreSQL to be ready
   echo "Waiting for PostgreSQL to be ready..."
   until /volume1/@appstore/ContainerManager/usr/bin/docker exec tsunaimi-postgresql-staging pg_isready -h localhost -p 5432 -U "\$POSTGRES_USER"; do
-    sleep 1
+    echo "PostgreSQL is not ready yet... waiting..."
+    sleep 3
   done
+  echo "PostgreSQL is ready!"
   
-  # Copy initialization script to container
-  echo "Copying initialization script..."
-  /volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/scripts/init-db-docker.sql tsunaimi-postgresql-staging:/docker-entrypoint-initdb.d/
-  
-  # Run initialization script
-  echo "Running database initialization script..."
-  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -v POSTGRES_USER="'\$POSTGRES_USER'" -v POSTGRES_PASSWORD="'\$POSTGRES_PASSWORD'" -v POSTGRES_DB="'\$POSTGRES_DB'" -U "\$POSTGRES_USER" -f /docker-entrypoint-initdb.d/init-db-docker.sql
+# Run migration scripts directly
+echo "Running database migrations..."
+for migration in ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/*.sql; do
+  echo "Applying migration: $(basename "$migration")"
+  /volume1/@appstore/ContainerManager/usr/bin/docker cp "$migration" tsunaimi-postgresql-staging:/tmp/
+  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "/tmp/$(basename "$migration")"
+done
+
+# Additionally run the init script if it contains more than just migrations
+echo "Running initialization script..."
+/volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/scripts/init-db-docker.sql tsunaimi-postgresql-staging:/tmp/
+/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /tmp/init-db-docker.sql
+
   
   # Verify table was created
   echo "Verifying table creation..."
