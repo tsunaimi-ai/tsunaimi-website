@@ -141,65 +141,58 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/d
 
 # Step 6: Container Deployment
 echo "=== Step 6: Container Deployment ==="
-ssh -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
-  # Pass RELEASE_NAME to the remote session
-  RELEASE_NAME="$RELEASE_NAME"
-  
-  # 6.1: Stop existing containers
-  echo "6.1: Stopping existing containers..."
-  cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml down
-  
-  # 6.2: Load new images
-  echo "6.2: Loading new images..."
-  cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-${RELEASE_NAME}.tar
-  /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-${RELEASE_NAME}.tar
-  
-  # 6.3: Start containers
-  echo "6.3: Starting containers..."
-  cd ${NAS_STAGING_PATH}/${RELEASE_NAME}
-  /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d
-  
-  # 6.4: Initialize PostgreSQL
-  echo "6.4: Initializing PostgreSQL..."
-  
-  # Read environment variables from .env.staging
-  POSTGRES_USER=\$(grep '^POSTGRES_USER=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2)
-  POSTGRES_PASSWORD=\$(grep '^POSTGRES_PASSWORD=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2)
-  POSTGRES_DB=\$(grep '^POSTGRES_DB=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2)
-  
-  if [ -z "\$POSTGRES_USER" ] || [ -z "\$POSTGRES_PASSWORD" ] || [ -z "\$POSTGRES_DB" ]; then
+
+# 6.1: Stop existing containers
+echo "6.1: Stopping existing containers..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml down" || { echo "Error: Failed to stop containers"; exit 1; }
+
+# 6.2: Load new images
+echo "6.2: Loading new images..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_RELEASES_PATH}/${RELEASE_NAME} && /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-${RELEASE_NAME}.tar && /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-${RELEASE_NAME}.tar" || { echo "Error: Failed to load images"; exit 1; }
+
+# 6.3: Start containers
+echo "6.3: Starting containers..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml --env-file .env.staging up -d" || { echo "Error: Failed to start containers"; exit 1; }
+
+# 6.4: Initialize PostgreSQL
+echo "6.4: Initializing PostgreSQL..."
+
+# Verify .env.staging exists
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "[ -f '${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging' ]" || { echo "Error: .env.staging file not found"; exit 1; }
+
+# Read environment variables from .env.staging
+POSTGRES_USER=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_USER=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2")
+POSTGRES_PASSWORD=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_PASSWORD=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2")
+POSTGRES_DB=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_DB=' ${NAS_STAGING_PATH}/${RELEASE_NAME}/.env.staging | cut -d'=' -f2")
+
+if [ -z "$POSTGRES_USER" ] || [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_DB" ]; then
     echo "Error: Missing required database credentials in .env.staging"
+    echo "POSTGRES_USER: $POSTGRES_USER"
+    echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+    echo "POSTGRES_DB: $POSTGRES_DB"
     exit 1
-  fi
-  
-  # Wait for PostgreSQL to be ready
-  echo "Waiting for PostgreSQL to be ready..."
-  until /volume1/@appstore/ContainerManager/usr/bin/docker exec tsunaimi-postgresql-staging pg_isready -h localhost -p 5432 -U "\$POSTGRES_USER"; do
-    sleep 1
-  done
-  
-  # 6.5: Create user and database if they don't exist
-  echo "6.5: Creating user and database if they don't exist..."
-  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -c "CREATE USER \$POSTGRES_USER WITH PASSWORD '\$POSTGRES_PASSWORD';" 2>/dev/null || true
-  /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -c "CREATE DATABASE \$POSTGRES_DB WITH OWNER \$POSTGRES_USER;" 2>/dev/null || true
-  
-  # 6.6: Apply migrations
-  echo "6.6: Applying database migrations..."
-  for migration in ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/*.sql; do
-    echo "Applying migration: \$(basename "\$migration")"
-    /volume1/@appstore/ContainerManager/usr/bin/docker cp "\$migration" tsunaimi-postgresql-staging:/tmp/
-    /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -f "/tmp/\$(basename "\$migration")"
-  done
-  
-  # 6.7: Verify tables were created
-  echo "6.7: Verifying table creation..."
-  if ! /volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U "\$POSTGRES_USER" -d "\$POSTGRES_DB" -c "\dt" | grep -q "contact_submissions"; then
-    echo "Error: Failed to create contact_submissions table"
-    exit 1
-  fi
-EOF
+fi
+
+# Wait for PostgreSQL to be ready
+echo "Waiting for PostgreSQL to be ready..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "until /volume1/@appstore/ContainerManager/usr/bin/docker exec tsunaimi-postgresql-staging pg_isready -h localhost -p 5432 -U '$POSTGRES_USER'; do sleep 1; done" || { echo "Error: PostgreSQL not ready"; exit 1; }
+
+# 6.5: Create user and database if they don't exist
+echo "6.5: Creating user and database if they don't exist..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U '$POSTGRES_USER' -c \"CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';\"" 2>/dev/null || true
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U '$POSTGRES_USER' -c \"CREATE DATABASE $POSTGRES_DB WITH OWNER $POSTGRES_USER;\"" 2>/dev/null || true
+
+# 6.6: Apply migrations
+echo "6.6: Applying database migrations..."
+for migration in frontend/src/db/migrations/*.sql; do
+    echo "Applying migration: $(basename "$migration")"
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/$(basename "$migration") tsunaimi-postgresql-staging:/tmp/" || { echo "Error: Failed to copy migration file"; exit 1; }
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U '$POSTGRES_USER' -d '$POSTGRES_DB' -f /tmp/$(basename "$migration")" || { echo "Error: Failed to apply migration"; exit 1; }
+done
+
+# 6.7: Verify tables were created
+echo "6.7: Verifying table creation..."
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-staging psql -U '$POSTGRES_USER' -d '$POSTGRES_DB' -c '\dt' | grep -q 'contact_submissions'" || { echo "Error: Failed to create contact_submissions table"; exit 1; }
 
 # Step 7: Verification
 echo "=== Step 7: Verification ==="
@@ -215,6 +208,15 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" << EOF
   fi
   echo "All containers are running"
 EOF
+
+# Check if the verification failed
+if [ $? -ne 0 ]; then
+    echo "Error: Verification failed. Aborting Git operations."
+    exit 1
+fi
+
+# Only proceed with Git operations if deployment was successful
+echo "Deployment successful. Proceeding with Git operations..."
 
 # Step 8: Git Operations
 echo "=== Step 8: Git Operations ==="
