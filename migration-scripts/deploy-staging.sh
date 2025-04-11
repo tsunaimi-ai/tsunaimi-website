@@ -20,7 +20,7 @@ if ! [[ $NEW_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     exit 1
 fi
 
-RELEASE_NAME="tsunaimi-website-v$NEW_VERSION"
+RELEASE_NAME="tsunaimi-website-v${NEW_VERSION}"
 
 # Ask about network recreation
 read -p "Do you want to recreate the Docker network? (y/n) " -n 1 -r
@@ -274,24 +274,25 @@ git push origin develop
 
 # 8.2: Release Branch
 echo "8.2: Updating release branch..."
+BRANCH_NAME="release/${NEW_VERSION}"  # Git branch name without 'v'
 # Check if release branch exists
-if git show-ref --verify --quiet "refs/heads/release/${NEW_VERSION}"; then
+if git show-ref --verify --quiet "refs/heads/${BRANCH_NAME}"; then
     echo "Release branch exists, checking out..."
-    git checkout "release/${NEW_VERSION}"
+    git checkout "${BRANCH_NAME}"
     # Check if branch is ahead of remote
-    if [ "$(git rev-list HEAD...origin/release/${NEW_VERSION} --count)" -gt 0 ]; then
+    if [ "$(git rev-list HEAD...origin/${BRANCH_NAME} --count)" -gt 0 ]; then
         echo "Local branch is ahead of remote, forcing update..."
-        git push -f origin "release/${NEW_VERSION}"
+        git push -f origin "${BRANCH_NAME}"
     fi
 else
     echo "Creating new release branch..."
-    git checkout -b "release/${NEW_VERSION}"
+    git checkout -b "${BRANCH_NAME}"
 fi
 
 # Merge develop and push
 echo "Merging develop into release branch..."
 git merge develop --no-edit
-git push -f origin "release/v${NEW_VERSION}"
+git push -f origin "${BRANCH_NAME}"
 git checkout develop
 
 # Step 9: Cleanup
