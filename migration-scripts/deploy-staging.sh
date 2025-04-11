@@ -22,6 +22,17 @@ fi
 
 RELEASE_NAME="tsunaimi-website-v$NEW_VERSION"
 
+# Ask about network recreation
+read -p "Do you want to recreate the Docker network? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    RECREATE_NETWORK=true
+    echo "Network will be recreated during deployment"
+else
+    RECREATE_NETWORK=false
+    echo "Existing network will be preserved"
+fi
+
 echo "Current branch: $(git branch --show-current)"
 echo "New release version: $NEW_VERSION"
 echo "Working directory: $INITIAL_DIR"
@@ -148,7 +159,14 @@ echo "=== Step 6: Container Deployment ==="
 
 # 6.1: Stop existing containers
 echo "6.1: Stopping existing containers..."
-ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml down" || { echo "Error: Failed to stop containers"; exit 1; }
+if [ "$RECREATE_NETWORK" = true ]; then
+    echo "Recreating network..."
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml down" || { echo "Error: Failed to stop containers and remove network"; exit 1; }
+else
+    echo "Preserving existing network..."
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml stop" || { echo "Error: Failed to stop containers"; exit 1; }
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_STAGING_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.staging.yml rm -f" || { echo "Error: Failed to remove containers"; exit 1; }
+fi
 
 # 6.2: Load new images
 echo "6.2: Loading new images..."
