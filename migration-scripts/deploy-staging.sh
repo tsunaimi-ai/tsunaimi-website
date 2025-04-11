@@ -274,9 +274,24 @@ git push origin develop
 
 # 8.2: Release Branch
 echo "8.2: Updating release branch..."
-git checkout -b "release/v${NEW_VERSION}" 2>/dev/null || git checkout "release/${NEW_VERSION}"
+# Check if release branch exists
+if git show-ref --verify --quiet "refs/heads/release/${NEW_VERSION}"; then
+    echo "Release branch exists, checking out..."
+    git checkout "release/${NEW_VERSION}"
+    # Check if branch is ahead of remote
+    if [ "$(git rev-list HEAD...origin/release/${NEW_VERSION} --count)" -gt 0 ]; then
+        echo "Local branch is ahead of remote, forcing update..."
+        git push -f origin "release/${NEW_VERSION}"
+    fi
+else
+    echo "Creating new release branch..."
+    git checkout -b "release/${NEW_VERSION}"
+fi
+
+# Merge develop and push
+echo "Merging develop into release branch..."
 git merge develop --no-edit
-git push origin "release/v${NEW_VERSION}"
+git push -f origin "release/v${NEW_VERSION}"
 git checkout develop
 
 # Step 9: Cleanup
