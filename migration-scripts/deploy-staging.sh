@@ -275,7 +275,7 @@ git push origin develop
 # 8.2: Release Branch
 echo "8.2: Updating release branch..."
 git checkout -b "release/v${NEW_VERSION}" 2>/dev/null || git checkout "release/${NEW_VERSION}"
-git merge develop
+git merge develop --no-edit
 git push origin "release/v${NEW_VERSION}"
 git checkout develop
 
