@@ -108,6 +108,7 @@ sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
 cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
 put docker-compose.staging.yml
 put .env.staging
+put .env.production
 put frontend-${RELEASE_NAME}.tar
 put postgres-${RELEASE_NAME}.tar
 mkdir docker
@@ -127,16 +128,19 @@ put frontend/package-lock.json frontend/
 bye
 EOF
 
+# Verify files were transferred
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "[ -f '${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend-${RELEASE_NAME}.tar' ] && [ -f '${NAS_RELEASES_PATH}/${RELEASE_NAME}/postgres-${RELEASE_NAME}.tar' ] && [ -f '${NAS_RELEASES_PATH}/${RELEASE_NAME}/.env.production' ]" || { echo "Error: Required files not found after transfer"; exit 1; }
+
 # Step 5: Staging Directory Setup
 echo "=== Step 5: Staging Directory Setup ==="
 
 # 5.1: Create staging directory
 echo "5.1: Creating staging directory..."
-ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "mkdir -p ${NAS_STAGING_PATH}/${RELEASE_NAME} && chmod 755 ${NAS_STAGING_PATH}/${RELEASE_NAME}"
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "mkdir -p ${NAS_STAGING_PATH}/${RELEASE_NAME} && chmod 755 ${NAS_STAGING_PATH}/${RELEASE_NAME}" || { echo "Error: Failed to create staging directory"; exit 1; }
 
 # 5.2: Copy reference files
 echo "5.2: Copying reference files..."
-ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/docker-compose.staging.yml ${NAS_STAGING_PATH}/${RELEASE_NAME}/ && cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/.env.staging ${NAS_STAGING_PATH}/${RELEASE_NAME}/"
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/docker-compose.staging.yml ${NAS_STAGING_PATH}/${RELEASE_NAME}/ && cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/.env.staging ${NAS_STAGING_PATH}/${RELEASE_NAME}/ && cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/.env.production ${NAS_STAGING_PATH}/${RELEASE_NAME}/" || { echo "Error: Failed to copy reference files"; exit 1; }
 
 
 # Step 6: Container Deployment
@@ -196,8 +200,10 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/b
 
 # Step 7: Verification
 echo "=== Step 7: Verification ==="
+
+# 7.1: Check container status
+echo "7.1: Checking container status..."
 ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" << EOF
-  echo "Checking container status..."
   if ! /volume1/@appstore/ContainerManager/usr/bin/docker ps | grep -q "tsunaimi-frontend-staging"; then
     echo "Error: Frontend container is not running"
     exit 1
@@ -209,9 +215,30 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" << EOF
   echo "All containers are running"
 EOF
 
-# Check if the verification failed
-if [ $? -ne 0 ]; then
-    echo "Error: Verification failed. Aborting Git operations."
+# 7.2: Display container IPs
+echo "7.2: Container IP Addresses:"
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" << EOF
+  echo "Frontend container:"
+  /volume1/@appstore/ContainerManager/usr/bin/docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' tsunaimi-frontend-staging
+  echo "PostgreSQL container:"
+  /volume1/@appstore/ContainerManager/usr/bin/docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' tsunaimi-postgresql-staging
+EOF
+
+# 7.3: Check environment variables
+echo "7.3: Checking environment variables..."
+echo "Frontend environment:"
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec tsunaimi-frontend-staging env | grep -E 'DATABASE_URL|POSTGRES'"
+
+# 7.4: User verification
+echo "7.4: Manual testing verification"
+echo "Please verify that the staging site is working correctly:"
+echo "  - Frontend is accessible"
+echo "  - Contact form submissions are working"
+echo "  - Any other critical functionality"
+read -p "Has testing been successful? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Testing failed. Aborting Git operations."
     exit 1
 fi
 
