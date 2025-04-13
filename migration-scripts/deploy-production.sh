@@ -27,6 +27,8 @@ fi
 
 VERSION=${BASH_REMATCH[1]}
 RELEASE_NAME="tsunaimi-website-v$VERSION"
+# Convert version with dots to version with hyphens for project name
+VERSION_NO_DOTS=$(echo "$VERSION" | tr '.' '-')
 
 # Ask about network recreation
 read -p "Do you want to recreate the production network? This will assign new IPs to containers. (y/n) " -n 1 -r
@@ -100,15 +102,17 @@ fi
 # Step 3: Production Setup
 echo "=== Step 3: Production Setup ==="
 
-# 3.1: Copy production compose file from local machine to releases
-echo "3.1: Copying production compose file to releases..."
+# 3.1: Copy production files from local machine to releases
+echo "3.1: Copying production files to releases..."
 sftp -i "$SSH_KEY" -o BatchMode=yes "$NAS_USER@$NAS_IP" << EOF
 cd ${NAS_RELEASES_PATH}/${RELEASE_NAME}
 put docker-compose.production.yml
+cd docker/frontend
+put docker/frontend/Dockerfile.prod Dockerfile.prod
 bye
 EOF
 if [ $? -ne 0 ]; then
-    echo "Error: Failed to copy production compose file"
+    echo "Error: Failed to copy production files"
     exit 1
 fi
 
@@ -140,20 +144,19 @@ else
     echo "No existing containers found, proceeding with deployment..."
 fi
 
-# For testing purposes
-echo "Debug: SSH_KEY = $SSH_KEY"
-echo "Debug: NAS_USER = $NAS_USER"
-echo "Debug: NAS_IP = $NAS_IP"
-echo "Debug: NAS_PRODUCTION_PATH = $NAS_PRODUCTION_PATH"
-echo "Debug: RELEASE_NAME = $RELEASE_NAME"
-
 # 4.2: Load images
 echo "4.2: Loading images..."
 ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_RELEASES_PATH}/${RELEASE_NAME} && /volume1/@appstore/ContainerManager/usr/bin/docker load -i frontend-${RELEASE_NAME}.tar && /volume1/@appstore/ContainerManager/usr/bin/docker load -i postgres-${RELEASE_NAME}.tar" || { echo "Error: Failed to load images"; exit 1; }
 
 # 4.3: Start containers
 echo "4.3: Starting containers..."
-ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "cd ${NAS_PRODUCTION_PATH}/${RELEASE_NAME} && RELEASE_NAME='${RELEASE_NAME}' /volume1/@appstore/ContainerManager/usr/bin/docker-compose -f docker-compose.production.yml --env-file .env.production up -d" || { echo "Error: Failed to start containers"; exit 1; }
+ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP"\
+ "cd ${NAS_PRODUCTION_PATH}/${RELEASE_NAME} &&\
+  RELEASE_NAME='${RELEASE_NAME}'\
+  /volume1/@appstore/ContainerManager/usr/bin/docker-compose \
+   -p tsunaimi-production-${VERSION_NO_DOTS} \
+   -f docker-compose.production.yml --env-file .env.production up -d" \
+  || { echo "Error: Failed to start containers"; exit 1; }
 
 # 4.4: Initialize PostgreSQL
 echo "4.4: Initializing PostgreSQL..."
@@ -162,9 +165,9 @@ echo "4.4: Initializing PostgreSQL..."
 ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "[ -f '${NAS_PRODUCTION_PATH}/${RELEASE_NAME}/.env.production' ]" || { echo "Error: .env.production file not found"; exit 1; }
 
 # Read environment variables from .env.production
-POSTGRES_USER=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_USER=' ${NAS_PRODUCTION_PATH}/.env.production | cut -d'=' -f2")
-POSTGRES_PASSWORD=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_PASSWORD=' ${NAS_PRODUCTION_PATH}/.env.production | cut -d'=' -f2")
-POSTGRES_DB=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_DB=' ${NAS_PRODUCTION_PATH}/.env.production | cut -d'=' -f2")
+POSTGRES_USER=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_USER=' ${NAS_PRODUCTION_PATH}/${RELEASE_NAME}/.env.production | cut -d'=' -f2")
+POSTGRES_PASSWORD=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_PASSWORD=' ${NAS_PRODUCTION_PATH}/${RELEASE_NAME}/.env.production | cut -d'=' -f2")
+POSTGRES_DB=$(ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "grep '^POSTGRES_DB=' ${NAS_PRODUCTION_PATH}/${RELEASE_NAME}/.env.production | cut -d'=' -f2")
 
 if [ -z "$POSTGRES_USER" ] || [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_DB" ]; then
     echo "Error: Missing required database credentials in .env.production"
@@ -187,7 +190,7 @@ ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/b
 echo "4.6: Applying database migrations..."
 for migration in frontend/src/db/migrations/*.sql; do
     echo "Applying migration: $(basename "$migration")"
-    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_PRODUCTION_PATH}/frontend/src/db/migrations/$(basename "$migration") tsunaimi-postgresql-production:/tmp/" || { echo "Error: Failed to copy migration file"; exit 1; }
+    ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker cp ${NAS_RELEASES_PATH}/${RELEASE_NAME}/frontend/src/db/migrations/$(basename "$migration") tsunaimi-postgresql-production:/tmp/" || { echo "Error: Failed to copy migration file"; exit 1; }
     ssh -i "$SSH_KEY" "$NAS_USER@$NAS_IP" "/volume1/@appstore/ContainerManager/usr/bin/docker exec -i tsunaimi-postgresql-production psql -U '$POSTGRES_USER' -d '$POSTGRES_DB' -f /tmp/$(basename "$migration")" || { echo "Error: Failed to apply migration"; exit 1; }
 done
 

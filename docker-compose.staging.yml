@@ -2,9 +2,6 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: docker/frontend/Dockerfile.staging
     image: tsunaimi-website-frontend:${RELEASE_NAME}
     container_name: tsunaimi-frontend-staging
     restart: unless-stopped
@@ -13,21 +10,14 @@ services:
     env_file:
       - .env.staging
     environment:
-      - NODE_ENV=staging
-      - NEXT_PUBLIC_NODE_ENV=staging
-      - PORT=3000
-      - NEXT_PUBLIC_API_URL=https://staging.tsunaimi.ai
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_INTERNAL_PORT}/${POSTGRES_DB}
-      - POSTGRES_INTERNAL_PORT=5432
-    networks:
-      - tsunaimi-network-staging
+      - NODE_ENV=production  # Changed from staging to production for optimization
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     depends_on:
       - postgresql
+    networks:
+      - tsunaimi-network-staging
 
   postgresql:
-    build:
-      context: .
-      dockerfile: docker/postgresql/Dockerfile
     image: tsunaimi-website-postgresql:${RELEASE_NAME}
     container_name: tsunaimi-postgresql-staging
     restart: unless-stopped
@@ -49,4 +39,4 @@ networks:
 
 volumes:
   tsunaimi-postgresql-data-staging:
-    name: tsunaimi-postgresql-data-staging 
+    name: tsunaimi-postgresql-data-staging
