@@ -61,83 +61,71 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-[#111827]">
-            {t('field.email')}
-          </label>
-          <div className="mt-1">
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="appearance-none block w-full px-3 py-2 border border-[#D1D5DB] rounded-md shadow-sm placeholder-[#9CA3AF] focus:outline-none focus:ring-[#7057A0] focus:border-[#7057A0] sm:text-sm"
-            />
-          </div>
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-[#251C6B] mb-1">
+          {t('field.email')}
+          <span className="text-red-500 ml-1" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7057A0]"
+        />
+      </div>
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-[#111827]">
-            {t('field.password')}
-          </label>
-          <div className="mt-1">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={formData.password}
-              onChange={handleChange}
-              className="appearance-none block w-full px-3 py-2 border border-[#D1D5DB] rounded-md shadow-sm placeholder-[#9CA3AF] focus:outline-none focus:ring-[#7057A0] focus:border-[#7057A0] sm:text-sm"
-            />
-          </div>
-        </div>
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-[#251C6B] mb-1">
+          {t('field.password')}
+          <span className="text-red-500 ml-1" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7057A0]"
+        />
+      </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <input
-              id="rememberMe"
-              name="rememberMe"
-              type="checkbox"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-              className="h-4 w-4 text-[#7057A0] focus:ring-[#7057A0] border-[#D1D5DB] rounded"
-            />
-            <label htmlFor="rememberMe" className="ml-2 block text-sm text-[#111827]">
-              {t('form.rememberMe')}
-            </label>
-          </div>
-        </div>
+      <div className="flex items-center">
+        <input
+          id="rememberMe"
+          name="rememberMe"
+          type="checkbox"
+          checked={formData.rememberMe}
+          onChange={handleChange}
+          className="h-4 w-4 text-[#7057A0] focus:ring-[#7057A0] border-[#E5E7EB] rounded"
+        />
+        <label htmlFor="rememberMe" className="ml-2 block text-sm text-[#251C6B]">
+          {t('form.rememberMe')}
+        </label>
+      </div>
 
-        {error && (
-          <div className="text-red-600 text-sm">
-            {error}
-          </div>
-        )}
-
-        <div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#7057A0] hover:bg-[#5A4690] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7057A0] disabled:opacity-50"
-          >
-            {isLoading ? t('form.signingIn') : t('form.submit')}
-          </button>
+      {error && (
+        <div className="text-red-500 text-sm p-3 bg-red-50 rounded-lg" role="alert">
+          {error}
         </div>
+      )}
 
-        <div className="text-sm text-center">
-          <span className="text-[#111827]">{t('noAccount')}</span>{' '}
-          <a href={`/${locale}/register`} className="font-medium text-[#7057A0] hover:text-[#5A4690]">
-            {t('registerLink')}
-          </a>
-        </div>
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={`w-full bg-[#7057A0] hover:bg-[#251C6B] text-white font-bold py-3 px-6 rounded-lg transition-colors ${
+          isLoading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        aria-busy={isLoading}
+      >
+        {isLoading ? t('form.signingIn') : t('form.submit')}
+      </button>
+    </form>
   );
 } 

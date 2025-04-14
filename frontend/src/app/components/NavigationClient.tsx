@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslations } from 'next-intl';
 
 interface NavigationItem {
   name: string;
@@ -21,6 +22,8 @@ interface NavigationClientProps {
 }
 
 export default function NavigationClient({ locale, navigation, isMenuOpen, onMenuToggle }: NavigationClientProps) {
+  const t = useTranslations('common.nav');
+
   return (
     <nav className="bg-white backdrop-blur-sm shadow-lg fixed w-full z-[997] border-b border-[#E5E7EB]">
       <div className="container mx-auto px-4">
@@ -30,7 +33,13 @@ export default function NavigationClient({ locale, navigation, isMenuOpen, onMen
               <Logo variant="full" />
             </Link>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
+            <Link
+              href={`/${locale}/login`}
+              className="text-[#251C6B] hover:text-[#7057A0] transition-colors"
+            >
+              {t('login')}
+            </Link>
             <LanguageSwitcher locale={locale} className="hidden md:block" />
             <button
               onClick={onMenuToggle}

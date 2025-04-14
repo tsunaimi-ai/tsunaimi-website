@@ -14,11 +14,28 @@ export default function LanguageSwitcher({ locale, className = '' }: LanguageSwi
   const targetPath = pathname?.replace(`/${locale}`, `/${targetLocale}`);
 
   return (
-    <Link
-      href={targetPath || `/${targetLocale}`}
-      className={`text-[#251C6B] hover:text-[#7057A0] transition-colors ${className}`}
-    >
-      {targetLocale.toUpperCase()}
-    </Link>
+    <div className={`flex items-center gap-1 ${className}`}>
+      <Link
+        href={`/en${pathname?.replace(/^\/[a-zA-Z-]+/, '')}`}
+        className={`px-4 py-2 rounded-md transition-colors ${
+          locale === 'en'
+            ? 'bg-[#7057A0] text-white'
+            : 'text-[#251C6B] hover:text-[#7057A0]'
+        }`}
+      >
+        EN
+      </Link>
+      <span className="text-[#251C6B]">/</span>
+      <Link
+        href={`/fr${pathname?.replace(/^\/[a-zA-Z-]+/, '')}`}
+        className={`px-4 py-2 rounded-md transition-colors ${
+          locale === 'fr'
+            ? 'bg-[#7057A0] text-white'
+            : 'text-[#251C6B] hover:text-[#7057A0]'
+        }`}
+      >
+        FR
+      </Link>
+    </div>
   );
 } 

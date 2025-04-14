@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if we're in the project root
-if [ ! -f "docker-compose.yml" ] || [ ! -d "frontend" ] || [ ! -d "migration-scripts" ]; then
+if [ ! -f "docker-compose.production.yml" ] || [ ! -d "frontend" ] || [ ! -d "migration-scripts" ]; then
     echo "Error: Must be run from the project root directory (tsunaimi-website)"
     echo "Current directory: $(pwd)"
     echo "Please change to the project root and try again"
