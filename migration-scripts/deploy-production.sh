@@ -18,14 +18,31 @@ NAS_RELEASES_PATH="web/tsunaimi/releases"
 NAS_PRODUCTION_PATH="web/tsunaimi/production"
 SSH_KEY="$HOME/.ssh/tsunaimi_deploy_key"
 
+
 # Get current branch and version
 CURRENT_BRANCH=$(git branch --show-current)
 if [[ ! $CURRENT_BRANCH =~ ^release/([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-    echo "Changing branch to release/$VERSION"
-    git checkout "release/$VERSION"
+    echo "Not on a release branch. Current branch: $CURRENT_BRANCH"
+    
+    # Ask for version
+    read -p "Enter version to deploy (format X.Y.Z, e.g., 0.4.4): " VERSION
+    
+    # Construct release branch name
+    RELEASE_BRANCH="release/$VERSION"
+    
+    # Check if branch exists
+    if git show-ref --verify --quiet "refs/heads/$RELEASE_BRANCH" || git show-ref --verify --quiet "refs/remotes/origin/$RELEASE_BRANCH"; then
+        echo "Switching to $RELEASE_BRANCH..."
+        git checkout "$RELEASE_BRANCH" || { echo "Error: Failed to checkout $RELEASE_BRANCH"; exit 1; }
+    else
+        echo "Error: Branch $RELEASE_BRANCH does not exist"
+        exit 1
+    fi
+else
+    VERSION=${BASH_REMATCH[1]}
+    echo "On release branch: $CURRENT_BRANCH, version: $VERSION"
 fi
 
-VERSION=${BASH_REMATCH[1]}
 RELEASE_NAME="tsunaimi-website-v$VERSION"
 # Convert version with dots to version with hyphens for project name
 VERSION_NO_DOTS=$(echo "$VERSION" | tr '.' '-')
@@ -365,7 +382,12 @@ if [ -n "$OLD_RELEASE_BRANCHES" ]; then
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Deleting $branch..."
+            # Delete remote branch
             git push origin --delete "$branch"
+            # Delete local branch if it exists
+            if git show-ref --verify --quiet "refs/heads/$branch"; then
+                git branch -d "$branch"
+            fi
         else
             echo "Skipping $branch"
         fi
