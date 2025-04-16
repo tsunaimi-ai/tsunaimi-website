@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 interface LoginFormData {
   email: string;
@@ -126,6 +127,13 @@ export default function LoginForm() {
       >
         {isLoading ? t('form.signingIn') : t('form.submit')}
       </button>
+
+      <div className="mt-4 text-center text-sm text-[#251C6B]">
+        {t('noAccount')}{' '}
+        <Link href={`/${locale}/register`} className="text-[#7057A0] hover:text-[#251C6B] font-medium">
+          {t('registerLink')}
+        </Link>
+      </div>
     </form>
   );
 } 

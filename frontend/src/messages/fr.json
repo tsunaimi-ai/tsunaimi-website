@@ -362,6 +362,7 @@
       "title": "Créer votre compte",
       "description": "Rejoignez TsunAImi pour commencer à trouver vos candidats parfaits",
       "form": {
+        "fullNameLabel": "Nom complet",
         "emailLabel": "Adresse email",
         "passwordLabel": "Mot de passe",
         "confirmPasswordLabel": "Confirmer le mot de passe",
@@ -377,7 +378,9 @@
         "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
         "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
         "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
-        "registrationFailed": "L'inscription a échoué. Veuillez réessayer."
+        "registrationFailed": "L'inscription a échoué. Veuillez réessayer.",
+        "serviceUnavailable": "Impossible de se connecter au service d'authentification. Veuillez réessayer plus tard.",
+        "clientNotInitialized": "Client d'authentification non initialisé. Veuillez rafraîchir la page."
       }
     },
     "login": {

@@ -367,28 +367,12 @@
     "noAccount": "Don't have an account?",
     "registerLink": "Create one"
   },
-  "Login": {
-    "email": "Email",
-    "password": "Password",
-    "rememberMe": "Remember me",
-    "signIn": "Sign in",
-    "signingIn": "Signing in...",
-    "error": {
-      "invalidCredentials": "Invalid email or password",
-      "emailNotVerified": "Please verify your email address before signing in",
-      "accountLocked": "Your account has been locked. Please contact support.",
-      "generic": "An error occurred while signing in. Please try again."
-    },
-    "form": {
-      "noAccount": "Don't have an account?",
-      "registerLink": "Create one"
-    }
-  },
   "auth": {
     "register": {
       "title": "Create your account",
       "description": "Join TsunAImi to start finding your perfect candidates",
       "form": {
+        "fullNameLabel": "Full Name",
         "emailLabel": "Email address",
         "passwordLabel": "Password",
         "confirmPasswordLabel": "Confirm password",
