@@ -15,6 +15,14 @@ const nextConfig = {
     unoptimized: true,
   },
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: '/api/auth/:path*',
+        destination: 'http://auth_api:8000/api/v1/auth/:path*',
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -5,6 +5,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useState } from 'react';
 import ContactFormWrapper from './ContactFormWrapper';
 import { useTranslations } from 'next-intl';
+import LoginButton from './LoginButton';
 
 interface NavigationItem {
   name: string;
@@ -33,6 +34,8 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
       onClose();
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <>
@@ -107,11 +110,13 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
               <div className="flex flex-col gap-4">
                 <LanguageSwitcher locale={locale} className="text-xl font-semibold" />
                 <Link
-                  href={`/${locale}/login`}
+                  href={`/${locale}/register`}
                   className="text-xl font-semibold text-[#251C6B] hover:text-[#7057A0] transition-colors"
+                  onClick={onClose}
                 >
-                  {t('login')}
+                  {t('register')}
                 </Link>
+                <LoginButton locale={locale} className="text-xl font-semibold" onClick={onClose} />
               </div>
             </div>
           </div>

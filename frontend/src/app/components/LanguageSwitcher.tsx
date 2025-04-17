@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 
 interface LanguageSwitcherProps {
   locale: string;
@@ -13,10 +12,15 @@ export default function LanguageSwitcher({ locale, className = '' }: LanguageSwi
   const targetLocale = locale === 'en' ? 'fr' : 'en';
   const targetPath = pathname?.replace(`/${locale}`, `/${targetLocale}`);
 
+  const handleLanguageSwitch = (newLocale: string) => {
+    const newPath = pathname?.replace(/^\/[a-zA-Z-]+/, `/${newLocale}`);
+    window.location.href = newPath || `/${newLocale}`;
+  };
+
   return (
     <div className={`flex items-center gap-1 ${className}`}>
-      <Link
-        href={`/en${pathname?.replace(/^\/[a-zA-Z-]+/, '')}`}
+      <button
+        onClick={() => handleLanguageSwitch('en')}
         className={`px-4 py-2 rounded-md transition-colors ${
           locale === 'en'
             ? 'bg-[#7057A0] text-white'
@@ -24,10 +28,10 @@ export default function LanguageSwitcher({ locale, className = '' }: LanguageSwi
         }`}
       >
         EN
-      </Link>
+      </button>
       <span className="text-[#251C6B]">/</span>
-      <Link
-        href={`/fr${pathname?.replace(/^\/[a-zA-Z-]+/, '')}`}
+      <button
+        onClick={() => handleLanguageSwitch('fr')}
         className={`px-4 py-2 rounded-md transition-colors ${
           locale === 'fr'
             ? 'bg-[#7057A0] text-white'
@@ -35,7 +39,7 @@ export default function LanguageSwitcher({ locale, className = '' }: LanguageSwi
         }`}
       >
         FR
-      </Link>
+      </button>
     </div>
   );
 } 

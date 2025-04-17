@@ -7,6 +7,7 @@
       "ai_agents": "Agents IA",
       "login": "Connexion",
       "logout": "Déconnexion",
+      "register": "S'inscrire",
       "logging_in": "Connexion en cours...",
       "logging_out": "Déconnexion en cours...",
       "about_submenu": {
@@ -16,7 +17,7 @@
       },
       "ai_agents_submenu": {
         "overview": "Vue d'ensemble",
-        "candidate_mapping": "Mapping des Candidats"
+        "candidate_mapping": "Cartographie des candidats"
       }
     },
     "language": {
@@ -346,21 +347,37 @@
     "form": {
       "submit": "Se connecter",
       "signingIn": "Connexion en cours...",
+      "signingOut": "Déconnexion en cours...",
+      "logout": "Se déconnecter",
       "rememberMe": "Se souvenir de moi",
       "error": {
         "invalidCredentials": "Email ou mot de passe invalide",
         "emailNotVerified": "Veuillez vérifier votre adresse email avant de vous connecter",
         "accountLocked": "Votre compte a été verrouillé. Veuillez contacter le support.",
-        "generic": "Une erreur s'est produite lors de la connexion. Veuillez réessayer."
+        "generic": "Une erreur s'est produite lors de la connexion. Veuillez réessayer.",
+        "logoutFailed": "Échec de la déconnexion",
+        "invalid_credentials": "Email ou mot de passe invalide",
+        "emailRequired": "L'email est requis",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+        "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+        "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+        "serviceUnavailable": "Impossible de se connecter au service d'authentification. Veuillez réessayer plus tard.",
+        "clientNotInitialized": "Client d'authentification non initialisé. Veuillez rafraîchir la page."
       }
     },
     "noAccount": "Vous n'avez pas de compte ?",
-    "registerLink": "En créer un"
+    "registerLink": "En créer un",
+    "success": {
+      "login": "Connexion réussie !",
+      "logout": "Déconnexion réussie !"
+    },
+    "alreadyLoggedIn": "Vous êtes déjà connecté"
   },
   "auth": {
     "register": {
       "title": "Créer votre compte",
-      "description": "Rejoignez TsunAImi pour commencer à trouver vos candidats parfaits",
+      "description": "Le premier Agent IA de TsunAImi est en ligne ... Venez tester la vague.",
       "form": {
         "fullNameLabel": "Nom complet",
         "emailLabel": "Adresse email",
@@ -381,6 +398,9 @@
         "registrationFailed": "L'inscription a échoué. Veuillez réessayer.",
         "serviceUnavailable": "Impossible de se connecter au service d'authentification. Veuillez réessayer plus tard.",
         "clientNotInitialized": "Client d'authentification non initialisé. Veuillez rafraîchir la page."
+      },
+      "success": {
+        "registrationComplete": "Inscription réussie ! Vous allez être automatiquement connecté."
       }
     },
     "login": {

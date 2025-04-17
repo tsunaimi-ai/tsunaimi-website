@@ -50,7 +50,11 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
   return (
     <Link
       href={`/${locale}/login`}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.();
+        window.location.href = `/${locale}/login`;
+      }}
       className={`bg-[#7057A0] hover:bg-[#251C6B] text-white px-6 py-3 rounded-lg transition-colors text-sm font-medium ${className}`}
     >
       {t('nav.login')}

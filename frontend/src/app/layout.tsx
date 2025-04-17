@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default async function RootLayout({
   return (
     <html className="scroll-smooth" lang={preferredLocale}>
       <body className={inter.className}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

@@ -2,14 +2,17 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserCreate } from '@/types/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function RegisterForm() {
   const t = useTranslations('auth.register');
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as string;
+  const { login } = useAuth();
   
   const [formData, setFormData] = useState<UserCreate>({
     email: '',
@@ -17,6 +20,7 @@ export default function RegisterForm() {
     full_name: '',
   });
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +34,7 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
     setIsLoading(true);
 
     try {
@@ -46,7 +51,17 @@ export default function RegisterForm() {
         throw new Error(error.error || t('errors.registrationFailed'));
       }
 
-      // TODO: Handle successful registration (redirect to login or show success message)
+      // Show success message
+      setSuccess(t('success.registrationComplete'));
+      
+      // Automatically log in the user
+      await login(formData.email, formData.password, true);
+      
+      // Redirect to home page after a short delay
+      setTimeout(() => {
+        router.push(`/${locale}`);
+      }, 2000);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : t('errors.registrationFailed'));
     } finally {
@@ -59,6 +74,12 @@ export default function RegisterForm() {
       {error && (
         <div className="text-red-500 text-sm p-3 bg-red-50 rounded-lg" role="alert">
           {error}
+        </div>
+      )}
+      
+      {success && (
+        <div className="text-green-500 text-sm p-3 bg-green-50 rounded-lg" role="alert">
+          {success}
         </div>
       )}
       
