@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import NavigationClient from './NavigationClient';
 import MenuPanel from './MenuPanel';
 import FooterWrapper from './FooterWrapper';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 
 interface LayoutContentProps {
   locale: string;
@@ -13,8 +13,9 @@ interface LayoutContentProps {
   children: React.ReactNode;
 }
 
-export default function LayoutContent({ locale, messages, children }: LayoutContentProps) {
+function NavigationContent({ locale, messages, children }: LayoutContentProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const navigation = [
     { name: messages.common.nav.home, href: `/${locale}` },
@@ -37,25 +38,40 @@ export default function LayoutContent({ locale, messages, children }: LayoutCont
     { name: messages.common.nav.contact, href: '#contact' }
   ];
 
+  // Add profile link if authenticated
+  if (isAuthenticated) {
+    navigation.push({ name: messages.common.nav.profile, href: `/${locale}/profile` });
+  }
+
+  return (
+    <>
+      <NavigationClient 
+        locale={locale} 
+        navigation={navigation}
+        isMenuOpen={isMenuOpen}
+        onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+      />
+      <main>
+        {children}
+      </main>
+      <MenuPanel 
+        isOpen={isMenuOpen} 
+        onClose={() => setIsMenuOpen(false)}
+        navigation={navigation}
+        locale={locale}
+      />
+      <FooterWrapper locale={locale} messages={messages} />
+    </>
+  );
+}
+
+export default function LayoutContent({ locale, messages, children }: LayoutContentProps) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Paris">
       <AuthProvider>
-        <NavigationClient 
-          locale={locale} 
-          navigation={navigation}
-          isMenuOpen={isMenuOpen}
-          onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
-        />
-        <main>
+        <NavigationContent locale={locale} messages={messages}>
           {children}
-        </main>
-        <MenuPanel 
-          isOpen={isMenuOpen} 
-          onClose={() => setIsMenuOpen(false)}
-          navigation={navigation}
-          locale={locale}
-        />
-        <FooterWrapper locale={locale} messages={messages} />
+        </NavigationContent>
       </AuthProvider>
     </NextIntlClientProvider>
   );

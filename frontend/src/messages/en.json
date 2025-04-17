@@ -8,6 +8,7 @@
       "login": "Login",
       "logout": "Logout",
       "register": "Register",
+      "profile": "My Profile",
       "logging_in": "Logging in...",
       "logging_out": "Logging out...",
       "about_submenu": {
@@ -414,5 +415,16 @@
         "clientNotInitialized": "Authentication client not initialized. Please refresh the page."
       }
     }
+  },
+  "profile": {
+    "title": "My Profile",
+    "fullName": "Full Name",
+    "email": "Email",
+    "status": "Account Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "notAuthenticated": "Not Authenticated",
+    "pleaseLogin": "Please log in to view your profile",
+    "error": "Error Loading Profile"
   }
 } 

@@ -8,6 +8,7 @@
       "login": "Connexion",
       "logout": "Déconnexion",
       "register": "S'inscrire",
+      "profile": "Mon Profil",
       "logging_in": "Connexion en cours...",
       "logging_out": "Déconnexion en cours...",
       "about_submenu": {
@@ -411,5 +412,16 @@
       "networkError": "Erreur réseau",
       "unknownError": "Une erreur inconnue s'est produite"
     }
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "fullName": "Nom Complet",
+    "email": "Email",
+    "status": "Statut du Compte",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "notAuthenticated": "Non Authentifié",
+    "pleaseLogin": "Veuillez vous connecter pour voir votre profil",
+    "error": "Erreur de Chargement du Profil"
   }
 } 
