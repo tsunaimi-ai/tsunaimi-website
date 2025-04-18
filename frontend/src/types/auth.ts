@@ -1,5 +1,3 @@
-export * from '../../../types/auth';
-
 export interface UserCreate {
   email: string;
   password: string;

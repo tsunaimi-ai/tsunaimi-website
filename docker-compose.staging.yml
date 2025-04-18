@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   frontend:
-    image: tsunaimi-website-frontend:${RELEASE_NAME}
-    container_name: tsunaimi-frontend-staging
+    image: tsunaimi-website-frontend-v${VERSION}:latest
+    container_name: tsunaimi-website-frontend-staging-v${VERSION}
     restart: unless-stopped
     ports:
       - "3100:3000"
@@ -18,8 +18,8 @@ services:
       - tsunaimi-network-staging
 
   postgresql:
-    image: tsunaimi-website-postgresql:${RELEASE_NAME}
-    container_name: tsunaimi-postgresql-staging
+    image: tsunaimi-website-postgresql-v${VERSION}:latest
+    container_name: tsunaimi-website-postgresql-staging-v${VERSION}
     restart: unless-stopped
     ports:
       - "5532:5432"
