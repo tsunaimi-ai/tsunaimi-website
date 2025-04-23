@@ -20,13 +20,23 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Copy only necessary files from builder
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# Copy over built assets and only prod deps
+# 1) Build assets
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
+# 2) Runtime dependencies
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json ./
+# Install only the "dependencies", so `next`, `react`, `react-dom` etc.
+RUN npm ci --omit=dev  
+
+
 ENV NODE_ENV=production
-EXPOSE 3000
+ENV HOST=0.0.0.0
+ENV FRONTEND_PORT_INTERNAL=3000
+EXPOSE ${FRONTEND_PORT_INTERNAL}
 
 # Start the application
-CMD ["node", "server.js", "-H", "0.0.0.0"]
+CMD ["npm", "run", "start"]

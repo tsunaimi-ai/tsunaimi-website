@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --hostname $HOST --port $FRONTEND_PORT_INTERNAL",
     "lint": "next lint",
     "db:test": "tsx src/lib/test-db.ts",
     "db:check": "tsx src/lib/check-submissions.ts",
