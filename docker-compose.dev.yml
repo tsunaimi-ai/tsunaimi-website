@@ -5,15 +5,15 @@ services:
       dockerfile: docker/frontend/Dockerfile.dev
     container_name: tsunaimi-frontend-dev
     ports:
-      - "3000:3000"  # base + 0 for dev
+      - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     env_file:
-      - .env.development
+      - .env.website.dev
     environment:
       - NODE_ENV=development
-      - PORT=3000
+      - PORT=${FRONTEND_PORT_INTERNAL}
     depends_on:
       - postgresql
     networks:
@@ -25,15 +25,15 @@ services:
       dockerfile: docker/postgresql/Dockerfile
     container_name: tsunaimi-postgresql-dev
     ports:
-      - "5432:5432"  # base + 1 for dev
+      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
     env_file:
-      - .env.development
+      - .env.website.dev
     volumes:
       - tsunaimi-postgresql-data-dev:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_NAME=${POSTGRES_NAME}
     networks:
       - tsunaimi-network-dev
 

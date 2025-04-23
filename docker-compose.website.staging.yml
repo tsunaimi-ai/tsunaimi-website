@@ -1,0 +1,47 @@
+# Variables required for deployment
+# - DEPLOY_ENV
+# - PROJECT_NAME
+# - PROJECT_PREFIX
+# - VERSION
+
+
+services:
+  frontend:
+    image: ${PROJECT_NAME}-frontend:v${VERSION}
+    container_name: ${PROJECT_NAME}-frontend-${DEPLOY_ENV}-v${VERSION}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
+    env_file:
+      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+    environment:
+      - NODE_ENV=production  # Changed from staging to production for optimization
+      - NEXT_PUBLIC_APP_ENV=staging  # Explicitly set the app environment
+      - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT_INTERNAL}/${POSTGRES_NAME}
+    depends_on:
+      - postgresql
+    networks:
+      - shared-network  # Referenced from the shared-network section
+
+  postgresql:
+    image: ${PROJECT_NAME}-postgresql:v${VERSION}
+    container_name: ${PROJECT_NAME}-postgresql-${DEPLOY_ENV}-v${VERSION}
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
+    env_file:
+      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data # Use a simple volume name
+    networks:
+      - shared-network   # Referenced from the shared-network section
+
+networks:
+  shared-network:
+    external: true
+    name: ${PROJECT_PREFIX}-network-${DEPLOY_ENV}
+
+volumes:
+  postgresql-data:
+    name: ${PROJECT_PREFIX}-postgresql-data-${DEPLOY_ENV}

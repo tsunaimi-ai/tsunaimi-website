@@ -3,16 +3,16 @@
 import { Pool, PoolConfig } from 'pg';
 import * as dotenv from 'dotenv';
 
-// Load the appropriate .env file
-const env = process.env.NODE_ENV || 'development';
+// Get the environment from NEXT_PUBLIC_APP_ENV if available, fallback to NODE_ENV
+const env = process.env.NEXT_PUBLIC_APP_ENV || process.env.NODE_ENV || 'development';
 console.log('DEBUG - Current NODE_ENV:', env);
 console.log('DEBUG - Current working directory:', process.cwd());
-console.log('DEBUG - Attempting to load:', `.env.${env}`);
+console.log('DEBUG - Attempting to load:', `.env.website.${env}`);
 
 if (env === 'development') {
   dotenv.config({ path: '.env.local' });
 } else {
-  dotenv.config({ path: `.env.${env}` });
+  dotenv.config({ path: `.env.website.${env}` });
 }
 
 let pool: Pool | null = null;
@@ -25,7 +25,7 @@ function getEnvConfig(): PoolConfig {
   const config: PoolConfig = {
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_DB,
+    database: process.env.POSTGRES_NAME,
     password: process.env.POSTGRES_PASSWORD,
     port: parseInt(process.env.POSTGRES_INTERNAL_PORT || '5432'),
     ssl: process.env.POSTGRES_SSL === 'true',
@@ -52,7 +52,7 @@ function getEnvConfig(): PoolConfig {
   if (missingFields.length > 0) {
     throw new Error(
       `Missing required database configuration: ${missingFields.join(', ')}. ` +
-      `Make sure these are set in your ${env === 'development' ? '.env.local' : `.env.${env}`} file.`
+      `Make sure these are set in your ${env === 'development' ? '.env.local' : `.env.website.${env}`} file.`
     );
   }
 
