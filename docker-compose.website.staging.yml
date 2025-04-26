@@ -14,11 +14,11 @@ services:
       - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
     environment:
       - NODE_ENV=production  # Changed from staging to production for optimization
-      - NEXT_PUBLIC_APP_ENV=staging  # Explicitly set the app environment
+      - APP_ENV=staging  # Explicitly set the app environment
       - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
       - FRONTEND_PORT_INTERNAL=${FRONTEND_PORT_INTERNAL}
       - FRONTEND_PORT_EXTERNAL=${FRONTEND_PORT_EXTERNAL}
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT_INTERNAL}/${POSTGRES_NAME}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT_INTERNAL}/${DB_NAME}
     ports:
       - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
     depends_on:
@@ -31,7 +31,7 @@ services:
     container_name: ${PROJECT_NAME}-postgresql-${DEPLOY_ENV}-v${VERSION}
     restart: unless-stopped
     ports:
-      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
+      - "${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}"
     env_file:
       - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
     volumes:

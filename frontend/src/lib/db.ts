@@ -3,9 +3,9 @@
 import { Pool, PoolConfig } from 'pg';
 import * as dotenv from 'dotenv';
 
-// Get the environment from NEXT_PUBLIC_APP_ENV if available, fallback to NODE_ENV
-const env = process.env.NEXT_PUBLIC_APP_ENV || process.env.NODE_ENV || 'development';
-console.log('DEBUG - Current NODE_ENV:', env);
+// Get the environment from APP_ENV if available, fallback to NODE_ENV
+const env = process.env.APP_ENV || process.env.NODE_ENV || 'development';
+console.log('DEBUG - Current environment:', env);
 console.log('DEBUG - Current working directory:', process.cwd());
 console.log('DEBUG - Attempting to load:', `.env.website.${env}`);
 
@@ -23,12 +23,12 @@ let pool: Pool | null = null;
  */
 function getEnvConfig(): PoolConfig {
   const config: PoolConfig = {
-    user: process.env.POSTGRES_USER,
-    host: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_NAME,
-    password: process.env.POSTGRES_PASSWORD,
-    port: parseInt(process.env.POSTGRES_INTERNAL_PORT || '5432'),
-    ssl: process.env.POSTGRES_SSL === 'true',
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: parseInt(process.env.DB_PORT_INTERNAL || '5432'),
+    ssl: process.env.DB_SSL === 'true',
     // Add some reasonable defaults for a web application
     max: env === 'production' ? 50 : 20, // More connections for production
     idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
@@ -42,7 +42,7 @@ function getEnvConfig(): PoolConfig {
     database: config.database,
     port: config.port,
     ssl: config.ssl,
-    POSTGRES_SSL_RAW: process.env.POSTGRES_SSL  // This will show us the exact value from env
+    DB_SSL_RAW: process.env.DB_SSL  // This will show us the exact value from env
   });
 
   // Validate required configuration

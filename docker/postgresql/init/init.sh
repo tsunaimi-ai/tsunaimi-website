@@ -1,20 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
 # Wait for PostgreSQL to be ready
-until pg_isready -h localhost -p 5432 -U $POSTGRES_USER
+until pg_isready -h localhost -p 5432 -U $DB_USER
 do
   echo "Waiting for PostgreSQL to be ready..."
   sleep 1
 done
 
-# Create the database if it doesn't exist
-psql -U $POSTGRES_USER -tc "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB'" | grep -q 1 || \
-psql -U $POSTGRES_USER -c "CREATE DATABASE $POSTGRES_DB"
+# Create database if it doesn't exist
+psql -U $DB_USER -tc "SELECT 1 FROM pg_database WHERE datname = '$DB_NAME'" | grep -q 1 || \
+psql -U $DB_USER -c "CREATE DATABASE $DB_NAME"
 
-# Connect to the database and run migrations
-for migration in /migrations/*.sql; do
+# Run migrations
+for migration in /docker-entrypoint-initdb.d/*.sql; do
   echo "Running migration: $migration"
-  psql -U $POSTGRES_USER -d $POSTGRES_DB -f "$migration"
+  psql -U $DB_USER -d $DB_NAME -f "$migration"
 done
 
 echo "Database initialization complete!"

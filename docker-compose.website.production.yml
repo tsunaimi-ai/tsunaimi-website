@@ -1,42 +1,50 @@
-version: '3.8'
+# Variables required for deployment
+# - DEPLOY_ENV
+# - PROJECT_NAME
+# - PROJECT_PREFIX
+# - VERSION
+
 
 services:
   frontend:
-    image: tsunaimi-website-frontend:${RELEASE_NAME}
-    container_name: tsunaimi-frontend-production
+    image: ${PROJECT_NAME}-frontend:v${VERSION}
+    container_name: ${PROJECT_NAME}-frontend-${DEPLOY_ENV}-v${VERSION}
     restart: unless-stopped
-    ports:
-      - "3200:3000"
     env_file:
-      - .env.production
+      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      - NEXT_PUBLIC_APP_ENV=production  # Explicitly set the app environment
+      - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
+      - FRONTEND_PORT_INTERNAL=${FRONTEND_PORT_INTERNAL}
+      - FRONTEND_PORT_EXTERNAL=${FRONTEND_PORT_EXTERNAL}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT_INTERNAL}/${DB_NAME}
+    ports:
+      - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
     depends_on:
       - postgresql
     networks:
-      - tsunaimi-network-production
+      - shared-network  # Referenced from the shared-network section
 
   postgresql:
-    image: tsunaimi-website-postgresql:${RELEASE_NAME}
-    container_name: tsunaimi-postgresql-production
+    image: ${PROJECT_NAME}-postgresql:v${VERSION}
+    container_name: ${PROJECT_NAME}-postgresql-${DEPLOY_ENV}-v${VERSION}
     restart: unless-stopped
     ports:
-      - "5632:5432"
+      - "${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}"
     env_file:
-      - .env.production
+      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
     volumes:
-      - tsunaimi-postgresql-data-production:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql/data # Use a simple volume name
     networks:
-      - tsunaimi-network-production
+      - shared-network   # Referenced from the shared-network section
 
 networks:
-  tsunaimi-network-production:
-    name: tsunaimi-network-production
-    ipam:
-      config:
-        - subnet: 172.22.0.0/16
+  shared-network:
+    external: true
+    name: ${PROJECT_PREFIX}-network-${DEPLOY_ENV}
 
 volumes:
-  tsunaimi-postgresql-data-production:
-    name: tsunaimi-postgresql-data-production 
+  postgresql-data:
+    external: true
+    name: ${PROJECT_PREFIX}-postgresql-data-${DEPLOY_ENV} 

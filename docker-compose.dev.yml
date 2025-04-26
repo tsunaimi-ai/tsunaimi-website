@@ -25,15 +25,15 @@ services:
       dockerfile: docker/postgresql/Dockerfile
     container_name: tsunaimi-postgresql-dev
     ports:
-      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
+      - "${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}"
     env_file:
       - .env.website.dev
     volumes:
       - tsunaimi-postgresql-data-dev:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_NAME=${POSTGRES_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     networks:
       - tsunaimi-network-dev
 
