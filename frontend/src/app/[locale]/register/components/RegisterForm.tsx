@@ -47,12 +47,12 @@ export default function RegisterForm() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || t('errors.registrationFailed'));
+        const errorData = await response.json();
+        throw new Error(errorData.detail || t('form.errors.registrationFailed'));
       }
 
       // Show success message
-      setSuccess(t('success.registrationComplete'));
+      setSuccess(t('form.success.registrationComplete'));
       
       // Automatically log in the user
       await login(formData.email, formData.password, true);
@@ -63,7 +63,8 @@ export default function RegisterForm() {
       }, 2000);
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('errors.registrationFailed'));
+      console.error('Registration error:', err);
+      setError(err instanceof Error ? err.message : t('form.errors.registrationFailed'));
     } finally {
       setIsLoading(false);
     }

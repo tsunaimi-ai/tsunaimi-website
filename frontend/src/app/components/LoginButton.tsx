@@ -16,9 +16,17 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
 
   const handleClick = async () => {
     if (isAuthenticated) {
-      await logout();
+      try {
+        await logout();
+        // Redirect to home page after successful logout
+        window.location.href = `/${locale}`;
+      } catch (err) {
+        console.error('Logout failed:', err);
+        // You might want to show an error toast or message here
+      }
+    } else {
+      onClick?.();
     }
-    onClick?.();
   };
 
   if (isLoading) {
