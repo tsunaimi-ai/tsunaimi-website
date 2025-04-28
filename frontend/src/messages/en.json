@@ -17,8 +17,7 @@
         "team": "Meet the Team"
       },
       "ai_agents_submenu": {
-        "overview": "Overview",
-        "candidate_mapping": "Candidate Mapping"
+        "overview": "Overview"
       }
     },
     "language": {
@@ -287,66 +286,7 @@
     }
   },
   "ai_agents": {
-    "title": "AI Agents",
-    "description": "Discover our suite of AI-powered tools designed to streamline your recruitment process and find the perfect candidates for your team.",
-    "candidate_mapping": {
-      "title": "Candidate Mapping Agent",
-      "description": "Find the perfect candidates for your team",
-      "search": "Search",
-      "searching": "Searching...",
-      "results": "Search Results",
-      "no_results": "No results found",
-      "view_profile": "View LinkedIn Profile",
-      "relevance_score": "Relevance Score",
-      "query_id": "Query ID",
-      "max_results": "Maximum Results",
-      "sort_by": "Sort By",
-      "sort_order": "Sort Order",
-      "add_criteria": "Add Search Criteria",
-      "remove_criteria": "Remove",
-      "search_placeholder": "Enter search value",
-      "status": {
-        "idle": "Ready to Search",
-        "pending": "Initializing Search",
-        "running": "Search in Progress",
-        "completed": "Search Completed",
-        "failed": "Search Failed"
-      },
-      "total_results": "Total Results",
-      "execution_time": "Execution Time",
-      "fields": {
-        "keywords": "Keywords",
-        "title": "Job Title",
-        "company": "Company",
-        "location": "Location",
-        "industry": "Industry"
-      },
-      "operators": {
-        "contains": "Contains",
-        "equals": "Equals",
-        "starts_with": "Starts With",
-        "ends_with": "Ends With"
-      },
-      "sort": {
-        "relevance": "Relevance",
-        "name": "Name",
-        "title": "Title",
-        "company": "Company",
-        "location": "Location",
-        "ascending": "Ascending",
-        "descending": "Descending"
-      },
-      "remaining_quota": "Remaining Quota",
-      "rate_limit_exceeded": "Rate limit exceeded. Please try again later.",
-      "rate_limit_reset": "Rate limit will reset in {time}",
-      "error": {
-        "rate_limit": "You've reached the rate limit. Please try again later.",
-        "network": "Network error. Please check your connection and try again.",
-        "server": "Server error. Please try again later.",
-        "timeout": "Request timed out. Please try again.",
-        "unknown": "An unexpected error occurred. Please try again."
-      }
-    }
+    "title": "AI Agents"
   },
   "login": {
     "title": "Sign in to your account",

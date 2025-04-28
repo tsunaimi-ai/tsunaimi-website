@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { validateEmail, validatePhoneNumber, formatPhoneNumber } from '@/lib/contact-validation';
 import { useTranslations } from 'next-intl';
-import { ContactApiClient } from '@/lib/api/contact-api-client';
 
 interface ContactFormProps {
   isOpen: boolean;

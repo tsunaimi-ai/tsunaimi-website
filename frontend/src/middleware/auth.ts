@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // List of paths that require authentication (without locale prefix)
-const PROTECTED_PATHS = [
-  '/candidate-mapping',
-  '/ai-agents/candidate-mapping',
+const PROTECTED_PATHS: string[] = [
   // Add other protected paths here
 ];
 
