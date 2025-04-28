@@ -22,6 +22,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Helper function to get storage based on remember me preference
 const getStorage = (rememberMe: boolean) => rememberMe ? localStorage : sessionStorage;
 
+// Helper function to get token from either storage
+export const getToken = () => {
+  return localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

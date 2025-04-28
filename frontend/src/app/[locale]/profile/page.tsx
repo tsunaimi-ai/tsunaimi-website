@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, getToken } from '@/contexts/AuthContext';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 
@@ -27,7 +27,7 @@ export default function ProfilePage() {
       try {
         const response = await fetch('/api/auth/me', {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            'Authorization': `Bearer ${getToken()}`,
           },
         });
 
