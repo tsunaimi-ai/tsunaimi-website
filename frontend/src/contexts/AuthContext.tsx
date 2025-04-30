@@ -31,11 +31,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Define the refreshToken function first so it's available in the useEffect
+  const refreshToken = async () => {
+    const storedRefreshToken = localStorage.getItem('refresh_token') || sessionStorage.getItem('refresh_token');
+    if (!storedRefreshToken) {
+      throw new Error('No refresh token available');
+    }
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('refresh_token', storedRefreshToken);
+      formData.append('grant_type', 'refresh_token');
+
+      const response = await fetch('/api/auth/refresh-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
+      });
+
+      if (!response.ok) {
+        throw new Error('Token refresh failed');
+      }
+
+      const tokenData: TokenData = await response.json();
+      // Use the same storage as the original token
+      const rememberMe = !!localStorage.getItem('refresh_token');
+      storeTokens(tokenData, rememberMe);
+    } catch (error) {
+      console.error('Token refresh error:', error);
+      clearTokens();
+      setIsAuthenticated(false);
+      throw error;
+    }
+  };
+
   // Initialize authentication state and check token expiration
   useEffect(() => {
     const checkAuth = async () => {
       const accessToken = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
-      const refreshToken = localStorage.getItem('refresh_token') || sessionStorage.getItem('refresh_token');
+      const storedRefreshToken = localStorage.getItem('refresh_token') || sessionStorage.getItem('refresh_token');
       const tokenExpiry = localStorage.getItem('token_expiry') || sessionStorage.getItem('token_expiry');
 
       if (!accessToken) {
@@ -45,9 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Check if token is expired
       if (tokenExpiry && new Date().getTime() > parseInt(tokenExpiry)) {
-        if (refreshToken) {
+        if (storedRefreshToken) {
           try {
-            await refreshToken();
+            await refreshToken(); // Now calling the function, not trying to call a string
           } catch (error) {
             console.error('Token refresh failed:', error);
             clearTokens();
@@ -151,41 +187,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const refreshToken = async () => {
-    const storedRefreshToken = localStorage.getItem('refresh_token') || sessionStorage.getItem('refresh_token');
-    if (!storedRefreshToken) {
-      throw new Error('No refresh token available');
-    }
-
-    try {
-      const formData = new URLSearchParams();
-      formData.append('refresh_token', storedRefreshToken);
-      formData.append('grant_type', 'refresh_token');
-
-      const response = await fetch('/api/auth/refresh-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error('Token refresh failed');
-      }
-
-      const tokenData: TokenData = await response.json();
-      // Use the same storage as the original token
-      const rememberMe = !!localStorage.getItem('refresh_token');
-      storeTokens(tokenData, rememberMe);
-    } catch (error) {
-      console.error('Token refresh error:', error);
-      clearTokens();
-      setIsAuthenticated(false);
-      throw error;
-    }
-  };
-
   const value = {
     isAuthenticated,
     isLoading,
@@ -207,4 +208,4 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-} 
+}
