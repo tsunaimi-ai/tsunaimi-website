@@ -1,6 +1,14 @@
 # Build stage
 FROM node:20-alpine AS builder
 
+# Add ARG declarations for build arguments
+ARG NEXT_PUBLIC_SHOW_LOGIN
+ARG NEXT_PUBLIC_SHOW_REGISTRATION
+
+# Convert ARGs to ENVs
+ENV NEXT_PUBLIC_SHOW_LOGIN=${NEXT_PUBLIC_SHOW_LOGIN}
+ENV NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
+
 WORKDIR /app
 
 # Copy package files

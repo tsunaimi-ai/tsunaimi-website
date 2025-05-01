@@ -3,6 +3,9 @@ services:
     build:
       context: .
       dockerfile: docker/frontend/Dockerfile.dev
+      args:
+        - NEXT_PUBLIC_SHOW_LOGIN=${NEXT_PUBLIC_SHOW_LOGIN}
+        - NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
     container_name: tsunaimi-frontend-dev
     ports:
       - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
