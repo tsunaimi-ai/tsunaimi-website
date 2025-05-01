@@ -300,7 +300,7 @@
       "signingIn": "Signing in...",
       "signingOut": "Signing out...",
       "logout": "Logout",
-      "rememberMe": "Remember me",
+      "rememberMe": "Stay signed in",
       "error": {
         "invalidCredentials": "Invalid email or password",
         "emailNotVerified": "Please verify your email address before signing in",

@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface LanguageSwitcherProps {
   locale: string;
@@ -9,12 +9,13 @@ interface LanguageSwitcherProps {
 
 export default function LanguageSwitcher({ locale, className = '' }: LanguageSwitcherProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const targetLocale = locale === 'en' ? 'fr' : 'en';
   const targetPath = pathname?.replace(`/${locale}`, `/${targetLocale}`);
 
   const handleLanguageSwitch = (newLocale: string) => {
     const newPath = pathname?.replace(/^\/[a-zA-Z-]+/, `/${newLocale}`);
-    window.location.href = newPath || `/${newLocale}`;
+    router.push(newPath || `/${newLocale}`);
   };
 
   return (

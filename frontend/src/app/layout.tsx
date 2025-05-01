@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { FeatureProvider } from '@/contexts/FeatureContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +24,11 @@ export default async function RootLayout({
   return (
     <html className="scroll-smooth" lang={preferredLocale}>
       <body className={inter.className}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <FeatureProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </FeatureProvider>
       </body>
     </html>
   );

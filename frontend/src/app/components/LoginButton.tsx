@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFeatures } from '@/contexts/FeatureContext';
+import { useRouter } from 'next/navigation';
 
 interface LoginButtonProps {
   locale: string;
@@ -12,14 +14,16 @@ interface LoginButtonProps {
 
 export default function LoginButton({ locale, className = '', onClick }: LoginButtonProps) {
   const { isAuthenticated, logout, isLoading } = useAuth();
+  const { showLogin } = useFeatures();
   const t = useTranslations('common');
+  const router = useRouter();
 
   const handleClick = async () => {
     if (isAuthenticated) {
       try {
         await logout();
-        // Redirect to home page after successful logout
-        window.location.href = `/${locale}`;
+        // Use Next.js router for navigation
+        router.push(`/${locale}`);
       } catch (err) {
         console.error('Logout failed:', err);
         // You might want to show an error toast or message here
@@ -28,6 +32,10 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
       onClick?.();
     }
   };
+
+  if (!showLogin) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -61,7 +69,7 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
       onClick={(e) => {
         e.preventDefault();
         onClick?.();
-        window.location.href = `/${locale}/login`;
+        router.push(`/${locale}/login`);
       }}
       className={`bg-[#7057A0] hover:bg-[#251C6B] text-white px-6 py-3 rounded-lg transition-colors text-sm font-medium ${className}`}
     >

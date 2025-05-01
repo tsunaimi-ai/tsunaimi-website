@@ -291,7 +291,7 @@
       "signingIn": "Connexion en cours...",
       "signingOut": "Déconnexion en cours...",
       "logout": "Se déconnecter",
-      "rememberMe": "Se souvenir de moi",
+      "rememberMe": "Rester connecté(e)",
       "error": {
         "invalidCredentials": "Email ou mot de passe invalide",
         "emailNotVerified": "Veuillez vérifier votre adresse email avant de vous connecter",

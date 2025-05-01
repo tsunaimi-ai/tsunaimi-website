@@ -6,6 +6,7 @@ import { useState } from 'react';
 import ContactFormWrapper from './ContactFormWrapper';
 import { useTranslations } from 'next-intl';
 import LoginButton from './LoginButton';
+import { useFeatures } from '@/contexts/FeatureContext';
 
 interface NavigationItem {
   name: string;
@@ -25,6 +26,7 @@ interface MenuPanelProps {
 
 export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuPanelProps) {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const { showLogin, showRegistration } = useFeatures();
   const t = useTranslations('common.nav');
 
   const handleLinkClick = (href: string) => {
@@ -109,6 +111,7 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
             <div className="mt-8 pt-8 border-t border-[#E5E7EB]">
               <div className="flex flex-col gap-4">
                 <LanguageSwitcher locale={locale} className="text-xl font-semibold" />
+                {showRegistration && (
                 <Link
                   href={`/${locale}/register`}
                   className="text-xl font-semibold text-[#251C6B] hover:text-[#7057A0] transition-colors"
@@ -116,7 +119,8 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
                 >
                   {t('register')}
                 </Link>
-                <LoginButton locale={locale} className="text-xl font-semibold" onClick={onClose} />
+                )}
+                {showLogin && <LoginButton locale={locale} className="text-xl font-semibold" onClick={onClose} />}
               </div>
             </div>
           </div>

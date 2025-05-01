@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useFeatures } from '@/contexts/FeatureContext';
 
 interface LoginFormData {
   email: string;
@@ -21,6 +22,7 @@ const initialFormData: LoginFormData = {
 export default function LoginForm() {
   const t = useTranslations('login');
   const { login, logout, isAuthenticated, isLoading } = useAuth();
+  const { showRegistration } = useFeatures();
   const params = useParams();
   const router = useRouter();
   const locale = params.locale as string;
@@ -188,12 +190,14 @@ export default function LoginForm() {
         )}
       </button>
 
-      <div className="mt-4 text-center text-sm text-[#251C6B]">
-        {t('noAccount')}{' '}
-        <Link href={`/${locale}/register`} className="text-[#7057A0] hover:text-[#251C6B] font-medium">
-          {t('registerLink')}
-        </Link>
-      </div>
+      {showRegistration && (
+        <div className="mt-4 text-center text-sm text-[#251C6B]">
+          {t('noAccount')}{' '}
+          <Link href={`/${locale}/register`} className="text-[#7057A0] hover:text-[#251C6B] font-medium">
+            {t('registerLink')}
+          </Link>
+        </div>
+      )}
     </form>
   );
 } 

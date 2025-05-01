@@ -5,6 +5,7 @@ import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslations } from 'next-intl';
 import LoginButton from './LoginButton';
+import { useFeatures } from '@/contexts/FeatureContext';
 
 interface NavigationItem {
   name: string;
@@ -24,6 +25,7 @@ interface NavigationClientProps {
 
 export default function NavigationClient({ locale, navigation, isMenuOpen, onMenuToggle }: NavigationClientProps) {
   const t = useTranslations('common.nav');
+  const { showLogin } = useFeatures();
 
   return (
     <nav className="bg-white backdrop-blur-sm shadow-lg fixed w-full z-[997] border-b border-[#E5E7EB]">
@@ -35,8 +37,10 @@ export default function NavigationClient({ locale, navigation, isMenuOpen, onMen
             </Link>
           </div>
           <div className="flex items-center gap-6">
-            <LoginButton locale={locale} />
-            <LanguageSwitcher locale={locale} className="hidden md:block" />
+            <div className="flex items-center gap-6">
+              {showLogin && <LoginButton locale={locale} />}
+              <LanguageSwitcher locale={locale} className="hidden md:block" />
+            </div>
             <button
               onClick={onMenuToggle}
               className="text-[#251C6B] hover:text-[#7057A0] transition-colors p-2"
