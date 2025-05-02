@@ -6,8 +6,8 @@
 
 services:
   frontend:
-    image: ${PROJECT_PREFIX}-${PROJECT_NAME}:v${VERSION}
-    container_name: ${PROJECT_PREFIX}-${PROJECT_NAME}-${DEPLOY_ENV}-v${VERSION}
+    image: ${PROJECT_NAME}:v${VERSION}
+    container_name: ${PROJECT_NAME}-${DEPLOY_ENV}-v${VERSION}
     restart: unless-stopped
     env_file:
       - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
@@ -20,8 +20,6 @@ services:
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT_INTERNAL}/${DB_NAME}
     ports:
       - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
-    depends_on:
-      - postgresql
     networks:
       - shared-network  # Referenced from the shared-network section
 

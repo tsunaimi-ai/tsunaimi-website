@@ -12,13 +12,13 @@ ENV NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
 WORKDIR /app
 
 # Copy package files
-COPY frontend/package.json frontend/package-lock.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm ci
 
 # Copy the rest of the application
-COPY frontend/ .
+COPY . .
 
 # Build the application
 RUN npm run build
@@ -33,13 +33,13 @@ WORKDIR /app
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/src ./src
 
 # 2) Runtime dependencies
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
 # Install only the "dependencies", so `next`, `react`, `react-dom` etc.
-RUN npm ci --omit=dev  
-
+RUN npm ci --omit=dev
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
