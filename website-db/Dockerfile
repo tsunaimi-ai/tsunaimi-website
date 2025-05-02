@@ -5,8 +5,8 @@ RUN mkdir -p /docker-entrypoint-initdb.d
 RUN mkdir -p /migrations
 
 # Copy initialization scripts
-COPY frontend/scripts/init-db-docker.sql /docker-entrypoint-initdb.d/
-COPY frontend/src/db/migrations/*.sql /migrations/
+COPY db-init/01-create-database.sql /docker-entrypoint-initdb.d/
+COPY db-init/02-create-users.sql /docker-entrypoint-initdb.d/
 
 # Expose the port
 EXPOSE 5432 

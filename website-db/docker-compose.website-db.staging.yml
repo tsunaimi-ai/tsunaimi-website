@@ -1,0 +1,34 @@
+# Variables required for deployment
+# - DEPLOY_ENV
+# - PROJECT_NAME
+# - PROJECT_PREFIX
+# - VERSION
+
+
+services:
+  postgresql:
+    image: ${PROJECT_NAME}-postgresql:v${VERSION}
+    container_name: ${PROJECT_NAME}-postgresql-${DEPLOY_ENV}-v${VERSION}
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}"
+    env_file:
+      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data # Use a simple volume name
+    networks:
+      - shared-network   # Referenced from the shared-network section
+
+networks:
+  shared-network:
+    external: true
+    name: ${PROJECT_PREFIX}-network-${DEPLOY_ENV}
+
+volumes:
+  postgresql-data:
+    external: true
+    name: ${PROJECT_PREFIX}-postgresql-data-${DEPLOY_ENV}
