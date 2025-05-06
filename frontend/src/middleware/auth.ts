@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server';
 
 // List of paths that require authentication (without locale prefix)
 const PROTECTED_PATHS: string[] = [
+  '/profile',
+  '/chat',
   // Add other protected paths here
 ];
 

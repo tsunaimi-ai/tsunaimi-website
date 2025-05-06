@@ -3,22 +3,22 @@
     "nav": {
       "home": "Accueil",
       "about": "À propos",
-      "contact": "Contactez-nous",
-      "ai_agents": "Agents IA",
-      "login": "Connexion",
-      "logout": "Déconnexion",
-      "register": "S'inscrire",
-      "profile": "Mon Profil",
-      "logging_in": "Connexion en cours...",
-      "logging_out": "Déconnexion en cours...",
       "about_submenu": {
         "manifesto": "Manifeste",
         "story": "Notre Histoire",
         "team": "L'équipe"
       },
+      "ai_agents": "Agents IA",
       "ai_agents_submenu": {
-        "overview": "Vue d'ensemble"
-      }
+        "overview": "Aperçu",
+        "chat": "Discuter avec l'IA"
+      },
+      "contact": "Contact",
+      "profile": "Profil",
+      "login": "Connexion",
+      "logout": "Déconnexion",
+      "logging_in": "Connexion en cours...",
+      "logging_out": "Déconnexion en cours..."
     },
     "language": {
       "en": "Anglais",
@@ -364,5 +364,12 @@
     "notAuthenticated": "Non Authentifié",
     "pleaseLogin": "Veuillez vous connecter pour voir votre profil",
     "error": "Erreur de Chargement du Profil"
+  },
+  "chat": {
+    "title": "Discuter avec notre agent IA",
+    "notAuthenticated": "Non Authentifié",
+    "pleaseLogin": "Veuillez vous connecter pour discuter avec notre agent IA",
+    "inputPlaceholder": "Tapez votre message ici...",
+    "send": "Envoyer"
   }
 } 

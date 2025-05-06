@@ -2,23 +2,23 @@
   "common": {
     "nav": {
       "home": "Home",
-      "about": "About Us",
-      "contact": "Contact Us",
-      "ai_agents": "AI Agents",
-      "login": "Login",
-      "logout": "Logout",
-      "register": "Register",
-      "profile": "My Profile",
-      "logging_in": "Logging in...",
-      "logging_out": "Logging out...",
+      "about": "About",
       "about_submenu": {
         "manifesto": "Manifesto",
         "story": "Our Story",
         "team": "Meet the Team"
       },
+      "ai_agents": "AI Agents",
       "ai_agents_submenu": {
-        "overview": "Overview"
-      }
+        "overview": "Overview",
+        "chat": "Chat with AI"
+      },
+      "contact": "Contact",
+      "profile": "Profile",
+      "login": "Login",
+      "logout": "Logout",
+      "logging_in": "Logging in...",
+      "logging_out": "Logging out..."
     },
     "language": {
       "en": "English",
@@ -328,7 +328,7 @@
   "auth": {
     "register": {
       "title": "Create your account",
-      "description": "TsunAImi’s first AI Agent is live ... come test the wave.",
+      "description": "TsunAImi's first AI Agent is live ... come test the wave.",
       "form": {
         "fullNameLabel": "Full Name",
         "emailLabel": "Email",
@@ -366,5 +366,12 @@
     "notAuthenticated": "Not Authenticated",
     "pleaseLogin": "Please log in to view your profile",
     "error": "Error Loading Profile"
+  },
+  "chat": {
+    "title": "Chat with our AI agent",
+    "notAuthenticated": "Not Authenticated",
+    "pleaseLogin": "Please log in to chat with our AI agent",
+    "inputPlaceholder": "Type your message here...",
+    "send": "Send"
   }
 } 
