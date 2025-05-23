@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../tsunaimi-services/chat_service"
+		}
+	],
+	"settings": {}
+}
