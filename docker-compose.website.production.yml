@@ -1,5 +1,5 @@
 # Variables required for deployment
-# - DEPLOY_ENV
+# - TARGET_ENV
 # - PROJECT_NAME
 # - PROJECT_PREFIX
 # - VERSION
@@ -8,10 +8,10 @@
 services:
   frontend:
     image: ${PROJECT_NAME}-frontend:v${VERSION}
-    container_name: ${PROJECT_NAME}-frontend-${DEPLOY_ENV}-v${VERSION}
+    container_name: ${PROJECT_NAME}-frontend-${TARGET_ENV}-v${VERSION}
     restart: unless-stopped
     env_file:
-      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+      - .env.${SERVICE_NAME_SHORT}.${TARGET_ENV}
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_APP_ENV=production  # Explicitly set the app environment
@@ -28,12 +28,12 @@ services:
 
   postgresql:
     image: ${PROJECT_NAME}-postgresql:v${VERSION}
-    container_name: ${PROJECT_NAME}-postgresql-${DEPLOY_ENV}-v${VERSION}
+    container_name: ${PROJECT_NAME}-postgresql-${TARGET_ENV}-v${VERSION}
     restart: unless-stopped
     ports:
       - "${DB_PORT_EXTERNAL}:${DB_PORT_INTERNAL}"
     env_file:
-      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+      - .env.${SERVICE_NAME_SHORT}.${TARGET_ENV}
     volumes:
       - postgresql-data:/var/lib/postgresql/data # Use a simple volume name
     networks:
@@ -42,9 +42,9 @@ services:
 networks:
   shared-network:
     external: true
-    name: ${PROJECT_PREFIX}-network-${DEPLOY_ENV}
+    name: ${PROJECT_PREFIX}-network-${TARGET_ENV}
 
 volumes:
   postgresql-data:
     external: true
-    name: ${PROJECT_PREFIX}-postgresql-data-${DEPLOY_ENV} 
+    name: ${PROJECT_PREFIX}-postgresql-data-${TARGET_ENV} 

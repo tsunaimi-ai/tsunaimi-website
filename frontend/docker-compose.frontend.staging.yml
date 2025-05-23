@@ -1,16 +1,17 @@
 # Variables required for deployment coming from config files
-# - DEPLOY_ENV
+# - TARGET_ENV
 # - PROJECT_NAME
 # - PROJECT_PREFIX
+# - PROJECT_SUBDIR
 # - VERSION (= ${TEMP_VERSION}-${FF_VERSION})
 
 services:
   frontend:
     image: ${PROJECT_NAME}:v${VERSION}
-    container_name: ${PROJECT_NAME}-${DEPLOY_ENV}-v${VERSION}
+    container_name: ${PROJECT_SUBDIR}-frontend-${TARGET_ENV}-v${VERSION}
     restart: unless-stopped
     env_file:
-      - .env.${SERVICE_NAME_SHORT}.${DEPLOY_ENV}
+      - .env.${SERVICE_NAME_SHORT}.${TARGET_ENV}
     environment:
       - NODE_ENV=production  # Changed from staging to production for optimization
       - APP_ENV=staging  # Explicitly set the app environment
@@ -26,4 +27,4 @@ services:
 networks:
   shared-network:
     external: true
-    name: ${PROJECT_PREFIX}-network-${DEPLOY_ENV}
+    name: ${PROJECT_PREFIX}-network-${TARGET_ENV}
