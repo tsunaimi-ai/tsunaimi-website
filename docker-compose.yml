@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: ./apps/frontend/website
+      dockerfile: Dockerfile
+      target: development
+    networks:
+      - shared-network
+
+networks:
+  shared-network: {}
