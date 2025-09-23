@@ -13,8 +13,6 @@ services:
       target: production
       args:
         - NEXT_PUBLIC_PLATFORM_URL=${NEXT_PUBLIC_PLATFORM_URL}
-        - NEXT_PUBLIC_SHOW_LOGIN=${NEXT_PUBLIC_SHOW_LOGIN}
-        - NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
     image: ${PROJECT_PREFIX}-website:v${VERSION}
     container_name: ${PROJECT_PREFIX}-website-${TARGET_ENV}-v${VERSION}
     restart: unless-stopped

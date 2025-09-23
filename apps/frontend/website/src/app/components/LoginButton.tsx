@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useFeatures } from '@/contexts/FeatureContext';
 import { getPlatformUrl } from '@/lib/platform-config';
 
 interface LoginButtonProps {
@@ -11,7 +10,6 @@ interface LoginButtonProps {
 }
 
 export default function LoginButton({ locale, className = '', onClick }: LoginButtonProps) {
-  const { showLogin } = useFeatures();
   const t = useTranslations('common');
 
   const handleClick = () => {
@@ -20,10 +18,6 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
     const platformSigninUrl = getPlatformUrl('signin');
     window.location.href = platformSigninUrl;
   };
-
-  if (!showLogin) {
-    return null;
-  }
 
   return (
     <button
