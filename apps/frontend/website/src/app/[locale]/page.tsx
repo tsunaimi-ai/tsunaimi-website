@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import ContactFormWrapper from '../components/ContactFormWrapper';
-import { RobotIcon, BrainIcon, ClockIcon, RocketIcon } from '../components/Icons';
+import { ScaleIcon, FoundationIcon, TargetIcon } from '../components/Icons';
 import DemoCards from '../components/DemoCards';
 import { getPlatformUrl } from '@/lib/platform-config';
 
@@ -14,7 +14,7 @@ function LoadingSkeleton() {
   return (
     <div className="min-h-screen">
       {/* Hero Section Skeleton */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#7057A0] to-[#251C6B]"></div>
         </div>
@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#7057A0] to-[#251C6B]"></div>
           <div className="absolute inset-0 bg-[url('/assets/grid-pattern.svg')] opacity-20"></div>
@@ -122,7 +122,7 @@ export default function Home() {
               <div className="space-y-8">
                 <div className="flex items-start gap-6">
                   <div className="flex-shrink-0 w-12 h-12 text-[#7057A0]">
-                    <RobotIcon className="w-full h-full" />
+                    <ScaleIcon className="w-full h-full" />
                   </div>
                   <p className="text-xl md:text-2xl text-[#111827]">
                     {t('different.subheadline1')}
@@ -131,7 +131,7 @@ export default function Home() {
 
                 <div className="flex items-start gap-6">
                   <div className="flex-shrink-0 w-12 h-12 text-[#7057A0]">
-                    <BrainIcon className="w-full h-full" />
+                    <FoundationIcon className="w-full h-full" />
                   </div>
                   <p className="text-xl md:text-2xl text-[#111827]">
                     {t('different.subheadline2')}
@@ -140,19 +140,10 @@ export default function Home() {
 
                 <div className="flex items-start gap-6">
                   <div className="flex-shrink-0 w-12 h-12 text-[#7057A0]">
-                    <ClockIcon className="w-full h-full" />
+                    <TargetIcon className="w-full h-full" />
                   </div>
                   <p className="text-xl md:text-2xl text-[#111827]">
                     {t('different.subheadline3')}
-                  </p>
-                </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-12 h-12 text-[#7057A0]">
-                    <RocketIcon className="w-full h-full" />
-                  </div>
-                  <p className="text-xl md:text-2xl text-[#111827]">
-                    {t('different.subheadline4')}
                   </p>
                 </div>
               </div>

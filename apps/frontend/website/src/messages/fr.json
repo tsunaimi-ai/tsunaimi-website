@@ -50,51 +50,51 @@
       "cta_button": "Suivez-nous et voyez comment ça se passe chez nous."
     },
     "demo": {
-      "headline": "Découvrez notre premier agent : le Gestionnaire de calendrier",
-      "subheadline": "Un aperçu concret de TsunAImi en action.",
-      "try_demo": {
-        "title": "Essayer l'Agent de Démo",
-        "description": "Voyez comment notre infrastructure gère la planification. Scannez le QR ou cliquez ci-dessous. Aucune inscription requise.",
-        "button": "Essayer la Démo →"
-      },
-      "deploy_agent": {
-        "title": "Déployez Votre Propre Agent",
-        "description": "Lancez votre Gestionnaire de Calendrier personnalisé. Connectez votre calendrier et personnalisez votre URL.",
-        "button": "Connecter le Calendrier →"
-      }
+      "headline": "Démo : votre assistant en charge de votre agenda",
+      "subheadline": "Un exemple concret de ce que notre plateforme permet de créer.",
+        "try_demo": {
+          "title": "Prenez rendez-vous avec Paul",
+          "description": "Testez notre agent en action. Aucune inscription, planifiez simplement un rendez-vous fictif avec Paul et voyez comment ça fonctionne.",
+          "button": "Essayer →"
+        },
+        "deploy_agent": {
+          "title": "Connectez votre agenda",
+          "description": "Passez du fictif au réel : connectez votre agenda et laissez l'agent gérer vos rendez-vous.",
+          "button": "Connecter votre agenda →"
+        }
     },
     "different": {
-      "section_title": "En quoi sommes-nous différent?",
-      "headline": "Nous ne nous adaptons pas à l'IA. Nous l'incarnons.",
-      "subheadline1": "L'IA fait partie intégrante de notre équipe, ce n'est pas juste un outil ou une aide ponctuelle.",
-      "subheadline2": "Ce n'est pas une posture marketing. C'est notre façon de travailler.",
-      "subheadline3": "Parce que la seule manière de vraiment comprendre l'IA, c'est de travailler avec elle. Tous les jours.",
-      "subheadline4": "C'est comme ça qu'on apprend plus vite, qu'on construit plus intelligemment, et qu'on peut vous aider à prendre de l'avance.",
-      "cta_button": "Découvrez notre façon de faire"
+      "section_title": "Du proof-of-concept à la production : là où la valeur commence.",
+      "headline": "Un PoC ne prouve pas grand-chose. Les vrais bénéfices arrivent quand les agents tournent en production, intégrés à vos processus. Avec TsunAImi, vous achetez les 80 % de fondations (infra, orchestration, gouvernance) et vous ne développez que les 20 % qui créent votre avantage. Vous construisez sur ce que vous achetez.",
+      "subheadline1": "Passage en production → Dépassez le stade du PoC avec une plateforme prête pour l’usage réel.",
+      "subheadline2": "Fondation incluse → Infrastructure, intégration et sécurité déjà prises en charge.",
+      "subheadline3": "Focus sur la valeur → Construisez uniquement les 20 % qui rendent votre activité unique.",
+      "subheadline4": "",
+      "cta_button": "Voir comment ça marche →"
     },
     "offerings": {
       "section_title": "Ce qu'on propose",
-      "headline": "On ne parle pas d'IA. On construit avec elle.",
-      "subheadline": "On part d'un besoin. On livre une solution qui vous fait entrer dans l'IA, pour de vrai.",
+      "headline": "Une plateforme sur laquelle construire. Un savoir-faire pour construire avec vous.",
+      "subheadline": "Pour les cabinets de conseil qui doivent démontrer. Pour les entreprises qui doivent déployer.",
       "service1": {
-        "title": "Résolution de problèmes réels",
-        "desc": "On ne part pas d'un cas d'usage sur catalogue. On part d'un irritant qui vous concerne.",
-        "sub": "Et on construit une solution qui le fait disparaître. Et que tout le monde veut utiliser."
+        "title": "Pour les Cabinets de Conseil",
+        "desc": "Montrez, ne présentez plus.",
+        "sub": "Marquez blanc la plateforme pour démontrer une IA agentique réelle à vos clients. Construisez votre crédibilité avec des agents fonctionnels plutôt qu'avec PowerPoint."
       },
       "service2": {
-        "title": "Prototypage rapide de cas d'usage",
-        "desc": "On transforme vos idées en prototypes fonctionnels. En quelques jours, pas en quelques mois.",
-        "sub": "On teste vite. On valide vite. On ne scale que ce qui fonctionne."
+        "title": "Pour les Entreprises",
+        "desc": "Construisez sur les 80 % qu'on vous livre.",
+        "sub": "On vous donne les fondations (infrastructure, orchestration, gouvernance) pour que vous ne vous concentriez que sur les 20 % qui rendent votre business unique."
       },
       "service3": {
-        "title": "Design de modèle opérationnel",
-        "desc": "L'IA transforme votre manière de travailler. On vous aide à évoluer avec.",
-        "sub": "Structure, rôles, process — on les fait évoluer pour que l'IA vienne renforcer vos équipes, pas les remplacer."
+        "title": "L'Avantage Plateforme",
+        "desc": "Flexible par conception.",
+        "sub": "Multi-tenant, modulaire et scalable. Utilisez des agents prêts à l'emploi ou construisez-en sur mesure selon vos besoins exacts."
       },
       "service4": {
-        "title": "Conception de systèmes multi-agents",
-        "desc": "On construit des agents autonomes qui pensent, agissent et s'améliorent.",
-        "sub": "Ils ne se contentent pas d'aider. Ils agissent."
+        "title": "Savoir-faire en Construction d'Agents",
+        "desc": "De l'idée à l'agent.",
+        "sub": "On ne vous donne pas juste des outils. On co-conçoit et construit les agents avec vous, transformant les points de friction en résultats concrets."
       }
     },
     "why_us": {

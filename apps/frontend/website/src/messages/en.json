@@ -66,50 +66,50 @@
     },
     "demo": {
       "headline": "The Calendar Manager is our first demo agent.",
-      "subheadline": "A glimpse of TsunAImi in action.",
+      "subheadline": "A concrete example of what our platform enables you to build.",
       "try_demo": {
-        "title": "Try the Demo Agent",
-        "description": "See how our infra handles scheduling. Scan the QR or click below. No signup needed.",
-        "button": "Try Demo →"
+        "title": "Book a meeting with Paul",
+        "description": "Test our agent in action. No signup, just schedule a fictive meeting with Paul and see how it works.",
+        "button": "Try it now →"
       },
       "deploy_agent": {
-        "title": "Deploy Your Own Agent",
-        "description": "Launch your personalized Calendar Manager. Connect your calendar and customize your URL.",
-        "button": "Connect Calendar →"
+        "title": "Connect your calendar",
+        "description": "Turn the agent into your personal assistant. Link your calendar and let it schedule for real.",
+        "button": "Connect calendar →"
       }
     },
     "different": {
-      "section_title": "What Makes Us Different",
-      "headline": "We're not adapting to AI. We are AI-native.",
-      "subheadline1": "We work with AI, as a team member — not just a tool.",
-      "subheadline2": "That's not a gimmick. That's how we operate.",
-      "subheadline3": "We believe the only way to understand AI is to work with it every day.",
-      "subheadline4": "That's how we learn faster, build smarter, and help you leap ahead.",
-      "cta_button": "See how we work"
+      "section_title": "From proof-of-concept to production: where value begins.",
+      "headline": "PoCs prove little. Real benefits come when agents run in production, embedded in your workflows. With TsunAImi, you buy the 80% foundation (infra, orchestration, governance) and make only the 20% that creates your unique value. You make on top of what you buy.",
+      "subheadline1": "Scale to production → Move past PoCs with a governed, production-ready platform.",
+      "subheadline2": "Foundation included → Infrastructure, integration, and security already handled.",
+      "subheadline3": "Focus on value → Build only the 20% that makes your business stand out.",
+      "subheadline4": "",
+      "cta_button": "See how it works →"
     },
     "offerings": {
       "section_title": "What We Offer",
-      "headline": "We don't just talk about AI. We build with it.",
-      "subheadline": "From idea to agent — fast.",
+      "headline": "A platform to build on. Know-how to build with.",
+      "subheadline": "For consulting firms who need to show. For businesses who need to scale.",
       "service1": {
-        "title": "Solving Real Problems",
-        "desc": "We don't start from a catalog of use cases. We start from a friction point that matters to you.",
-        "sub": "Then we build the solution that removes it — and that everyone wants to use."
+        "title": "For Consulting Firms",
+        "desc": "Show, don't slide.",
+        "sub": "White-label the platform to demo real agentic AI to clients. Build credibility with working agents instead of PowerPoint."
       },
       "service2": {
-        "title": "Rapid Use-Case Prototyping",
-        "desc": "We turn ideas into working prototypes in days—not months.",
-        "sub": "Test fast. Validate fast. Scale only what sticks."
+        "title": "For Businesses",
+        "desc": "Build on top of the 80% we deliver.",
+        "sub": "We give you the foundation (infrastructure, orchestration, governance) so you only focus on the 20% that makes your business unique."
       },
       "service3": {
-        "title": "Operating Model Design",
-        "desc": "AI changes how you work. We help you change with it.",
-        "sub": "Structure, workflows, roles—we rethink your ops for an agentic world."
+        "title": "The Platform Advantage",
+        "desc": "Flexible by design.",
+        "sub": "Multi-tenant, modular, and scalable. Use off-the-shelf agents or build custom ones to fit your exact needs."
       },
       "service4": {
-        "title": "Multi-Agent System Development",
-        "desc": "We build autonomous agents that think, act, and improve.",
-        "sub": "They don't just assist. They take action."
+        "title": "Agent-Building Know-How",
+        "desc": "From idea to agent.",
+        "sub": "We don't just hand over tools. We co-design and build agents with you, turning friction points into working outcomes."
       }
     },
     "why_us": {
