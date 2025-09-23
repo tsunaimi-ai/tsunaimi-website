@@ -98,3 +98,11 @@ temp/
 Dockerfile*
 docker-compose*
 .dockerignore
+
+# System manifest files
+*.manifest
+.manifest
+manifest.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
