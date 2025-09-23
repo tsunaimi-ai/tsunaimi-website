@@ -49,6 +49,20 @@
       "subheadline2": "On peut vous aider à passer à la suite.",
       "cta_button": "Suivez-nous et voyez comment ça se passe chez nous."
     },
+    "demo": {
+      "headline": "Découvrez notre premier agent : le Gestionnaire de calendrier",
+      "subheadline": "Un aperçu concret de TsunAImi en action.",
+      "try_demo": {
+        "title": "Essayer l'Agent de Démo",
+        "description": "Voyez comment notre infrastructure gère la planification. Scannez le QR ou cliquez ci-dessous. Aucune inscription requise.",
+        "button": "Essayer la Démo →"
+      },
+      "deploy_agent": {
+        "title": "Déployez Votre Propre Agent",
+        "description": "Lancez votre Gestionnaire de Calendrier personnalisé. Connectez votre calendrier et personnalisez votre URL.",
+        "button": "Connecter le Calendrier →"
+      }
+    },
     "different": {
       "section_title": "En quoi sommes-nous différent?",
       "headline": "Nous ne nous adaptons pas à l'IA. Nous l'incarnons.",

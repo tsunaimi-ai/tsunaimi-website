@@ -5,9 +5,9 @@ import { getPlatformUrl } from '@/lib/platform-config';
 
 export default function RegisterPage() {
   useEffect(() => {
-    // Immediately redirect to platform signup
-    const platformSignupUrl = getPlatformUrl('signup');
-    window.location.href = platformSignupUrl;
+    // Immediately redirect to platform signin (handles both signup and signin seamlessly)
+    const platformSigninUrl = getPlatformUrl('signin');
+    window.location.href = platformSigninUrl;
   }, []);
 
   return (

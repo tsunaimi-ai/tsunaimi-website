@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import ContactFormWrapper from '../components/ContactFormWrapper';
 import { RobotIcon, BrainIcon, ClockIcon, RocketIcon } from '../components/Icons';
+import DemoCards from '../components/DemoCards';
+import { getPlatformUrl } from '@/lib/platform-config';
 
 // Loading skeleton component
 function LoadingSkeleton() {
@@ -17,18 +19,19 @@ function LoadingSkeleton() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#7057A0] to-[#251C6B]"></div>
         </div>
         <div className="container relative z-10 px-4 py-12">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-            {/* Image placeholder */}
-            <div className="w-full lg:w-1/2 relative aspect-square lg:aspect-auto lg:h-[600px] bg-[#7057A0]/50 rounded-2xl animate-pulse"></div>
-            {/* Content placeholder */}
-            <div className="w-full lg:w-1/2 space-y-8">
-              <div className="h-12 bg-white/20 rounded-lg animate-pulse"></div>
-              <div className="space-y-4">
-                <div className="h-8 bg-white/20 rounded-lg animate-pulse"></div>
-                <div className="h-8 bg-white/20 rounded-lg animate-pulse"></div>
-              </div>
-              <div className="h-14 w-48 bg-white/20 rounded-lg animate-pulse"></div>
+          <div className="max-w-6xl mx-auto text-center space-y-12">
+            {/* Headline placeholder */}
+            <div className="space-y-6">
+              <div className="h-16 bg-white/20 rounded-lg animate-pulse mx-auto max-w-4xl"></div>
+              <div className="h-8 bg-white/20 rounded-lg animate-pulse mx-auto max-w-2xl"></div>
             </div>
+            {/* Cards placeholder */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <div className="h-80 bg-white/20 rounded-2xl animate-pulse"></div>
+              <div className="h-80 bg-white/20 rounded-2xl animate-pulse"></div>
+            </div>
+            {/* Button placeholder */}
+            <div className="h-14 w-48 bg-white/20 rounded-lg animate-pulse mx-auto"></div>
           </div>
         </div>
       </section>
@@ -83,36 +86,20 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('/assets/grid-pattern.svg')] opacity-20"></div>
         </div>
         <div className="container relative z-10 px-4 py-12">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-            {/* Image on the left */}
-            <div className="w-full lg:w-1/2 relative aspect-square lg:aspect-auto lg:h-[600px]">
-              <Image
-                src="/assets/images/hero1.jpeg"
-                alt="Futuristic AI Scene"
-                fill
-                className="object-cover rounded-2xl"
-                priority
-                fetchPriority="high"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            {/* Content on the right */}
-            <div className="w-full lg:w-1/2 space-y-8 text-center lg:text-left">
-              <h1 className="heading-1 text-[#FFFFFF] text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                {t('hero.headline')}
+          <div className="max-w-6xl mx-auto text-center space-y-12">
+            {/* Main Headline */}
+            <div className="space-y-6">
+              <h1 className="heading-1 text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                {t('demo.headline')}
               </h1>
-              <div className="text-xl md:text-2xl lg:text-3xl text-[#E5E7EB] leading-relaxed space-y-4">
-                <p>{t('hero.subheadline1')}</p>
-                <p>{t('hero.subheadline2')}</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-8">
-                <button 
-                  onClick={handleLinkedInClick}
-                  className="bg-[#7057A0] hover:bg-[#251C6B] text-white text-xl font-bold py-4 px-8 rounded-lg transition-colors"
-                >
-                  {t('hero.cta_button')}
-                </button>
-              </div>
+              <p className="text-xl md:text-2xl text-[#E5E7EB] leading-relaxed">
+                {t('demo.subheadline')}
+              </p>
+            </div>
+
+            {/* Demo Cards */}
+            <div className="py-8">
+              <DemoCards />
             </div>
           </div>
         </div>

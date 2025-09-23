@@ -6,8 +6,9 @@
 export interface PlatformConfig {
   baseUrl: string;
   loginUrl: string;
-  registerUrl: string;
   dashboardUrl: string;
+  demoAgentUrl: string;
+  consoleCalendarUrl: string;
 }
 
 /**
@@ -24,24 +25,27 @@ export function getPlatformConfig(): PlatformConfig {
   return {
     baseUrl,
     loginUrl: `${baseUrl}/auth/signin`,
-    registerUrl: `${baseUrl}/auth/signup`, 
     dashboardUrl: `${baseUrl}/dashboard`,
+    demoAgentUrl: `${baseUrl}/gateway/demo-agent`,
+    consoleCalendarUrl: `${baseUrl}/console/calendar`,
   };
 }
 
 /**
  * Get platform URL for different actions
  */
-export function getPlatformUrl(type: 'signin' | 'signup' | 'dashboard'): string {
+export function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar'): string {
   const config = getPlatformConfig();
   
   switch(type) {
     case 'signin': 
       return config.loginUrl;
-    case 'signup': 
-      return config.registerUrl;
     case 'dashboard': 
       return config.dashboardUrl;
+    case 'demo':
+      return config.demoAgentUrl;
+    case 'console-calendar':
+      return config.consoleCalendarUrl;
     default:
       return config.baseUrl;
   }

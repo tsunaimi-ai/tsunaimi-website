@@ -64,6 +64,20 @@
       "subheadline2": "We're here to fix that.",
       "cta_button": "Follow Us - See AI in Action"
     },
+    "demo": {
+      "headline": "The Calendar Manager is our first demo agent.",
+      "subheadline": "A glimpse of TsunAImi in action.",
+      "try_demo": {
+        "title": "Try the Demo Agent",
+        "description": "See how our infra handles scheduling. Scan the QR or click below. No signup needed.",
+        "button": "Try Demo →"
+      },
+      "deploy_agent": {
+        "title": "Deploy Your Own Agent",
+        "description": "Launch your personalized Calendar Manager. Connect your calendar and customize your URL.",
+        "button": "Connect Calendar →"
+      }
+    },
     "different": {
       "section_title": "What Makes Us Different",
       "headline": "We're not adapting to AI. We are AI-native.",
