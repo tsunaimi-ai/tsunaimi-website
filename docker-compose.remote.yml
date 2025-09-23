@@ -19,7 +19,7 @@ services:
     container_name: ${PROJECT_PREFIX}-website-${TARGET_ENV}-v${VERSION}
     restart: unless-stopped
     env_file:
-      - .env.${SERVICE_NAME_SHORT}.${TARGET_ENV}
+      - .env.${TARGET_ENV}
     environment:
       - NEXT_PUBLIC_APP_ENV=production  # Explicitly set the app environment
       - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
