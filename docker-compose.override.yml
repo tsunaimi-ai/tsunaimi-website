@@ -14,8 +14,8 @@ services:
         - NEXT_PUBLIC_PLATFORM_URL=${NEXT_PUBLIC_PLATFORM_URL}
         - NEXT_PUBLIC_SHOW_LOGIN=${NEXT_PUBLIC_SHOW_LOGIN}
         - NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
-    image: ${PROJECT_NAME}-website:v${VERSION}
-    container_name: ${PROJECT_NAME}-website-${TARGET_ENV}-v${VERSION}
+    image: ${PROJECT_PREFIX}-website:v${VERSION}
+    container_name: ${PROJECT_PREFIX}-website-${TARGET_ENV}-v${VERSION}
     env_file:
       - .env.${TARGET_ENV}
     environment:
