@@ -4,7 +4,6 @@
 # - PROJECT_PREFIX
 # - VERSION
 
-
 services:
   website:
     build:
@@ -15,14 +14,13 @@ services:
         - NEXT_PUBLIC_PLATFORM_URL=${NEXT_PUBLIC_PLATFORM_URL}
         - NEXT_PUBLIC_SHOW_LOGIN=${NEXT_PUBLIC_SHOW_LOGIN}
         - NEXT_PUBLIC_SHOW_REGISTRATION=${NEXT_PUBLIC_SHOW_REGISTRATION}
-    image: ${PROJECT_NAME}-frontend:v${VERSION}
-    container_name: ${PROJECT_NAME}-frontend-${TARGET_ENV}-v${VERSION}
-    restart: unless-stopped
+    image: ${PROJECT_NAME}-website:v${VERSION}
+    container_name: ${PROJECT_NAME}-website-${TARGET_ENV}-v${VERSION}
     env_file:
-      - .env.${SERVICE_NAME_SHORT}.${TARGET_ENV}
+      - .env.${TARGET_ENV}
     environment:
-      - NODE_ENV=production  # Changed from staging to production for optimization
-      - APP_ENV=staging  # Explicitly set the app environment
+      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_ENV=production  # Explicitly set the app environment
       - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
       - FRONTEND_PORT_INTERNAL=${FRONTEND_PORT_INTERNAL}
       - FRONTEND_PORT_EXTERNAL=${FRONTEND_PORT_EXTERNAL}
@@ -34,5 +32,4 @@ services:
 
 networks:
   shared-network:
-    external: true
     name: ${PROJECT_PREFIX}-network-${TARGET_ENV}
