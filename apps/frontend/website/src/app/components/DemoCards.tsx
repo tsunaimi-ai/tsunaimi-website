@@ -79,16 +79,16 @@ export default function DemoCards() {
   };
 
   // Demo Image Component
-  const DemoImage = () => (
-    <div className="w-80 h-80 relative rounded-xl overflow-hidden shadow-inner bg-gray-50">
-      <Image
-        src="/assets/images/gateway-qr-demo-agent.png"
-        alt="Demo Agent QR Code"
-        fill
-        className="object-contain p-4"
-      />
-    </div>
-  );
+         const DemoImage = () => (
+           <div className="w-80 h-80 relative rounded-xl overflow-hidden shadow-inner bg-gray-50">
+             <Image
+               src="/assets/images/gateway-qr-paul-calendar-demo.png"
+               alt="Demo Agent QR Code"
+               fill
+               className="object-contain p-4"
+             />
+           </div>
+         );
 
   // Deploy Image Component
   const DeployImage = () => (
