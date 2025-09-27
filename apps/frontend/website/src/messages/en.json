@@ -126,43 +126,6 @@
       "button_text": "Contact us"
     }
   },
-  "contact": {
-    "title": "Turn AI Into Your Competitive Edge",
-    "subtitle": "Tell us about your AI transformation goals.",
-    "required_note": "Fields marked with * are required",
-    "field": {
-      "name": "Name",
-      "email": "Email",
-      "phone": "Phone Number (optional)",
-      "phone_help": "Include country code (e.g., +33 for France)",
-      "company": "Company",
-      "role": "Your Role",
-      "primary_interest": "Primary Interest",
-      "primary_interest_placeholder": "Select your primary interest",
-      "interest_curious": "Just curious",
-      "interest_conversation": "Want to exchange ideas",
-      "interest_prototype": "Need rapid prototyping",
-      "interest_scale": "Looking to scale",
-      "interest_unsure": "Not sure yet",
-      "project_description": "Tell us about your project",
-      "project_placeholder": "What are your goals? What challenges are you facing?"
-    },
-    "submit_button": "Send Message",
-    "form": {
-      "validation": {
-        "email": "Please enter a valid email address (e.g., user@domain.com).",
-        "phone": "Please enter a valid phone number (e.g., +1 234 567 8900).",
-        "required": "{field} is required."
-      },
-      "sending": "Sending...",
-      "success": "Thank you!",
-      "success_message": "We'll get back to you soon.",
-      "error": "Please correct the errors in the form.",
-      "error_rate_limit": "Too many requests. Please try again in a few minutes.",
-      "error_submit": "Failed to submit form",
-      "error_unknown": "An error occurred"
-    }
-  },
   "aboutus": {
     "manifesto": {
       "page_title": "TsunAImi Manifesto",

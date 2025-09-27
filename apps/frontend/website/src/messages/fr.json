@@ -116,43 +116,6 @@
       "tagline2b": "Suivez-nous sur LinkedIn."
     }
   },
-  "contact": {
-    "title": "Faites de l'IA votre avantage compétitif",
-    "subtitle": "Parlez-nous de vos objectifs de transformation IA.",
-    "required_note": "Les champs marqués d'un * sont obligatoires",
-    "field": {
-      "name": "Nom",
-      "email": "Email",
-      "phone": "Numéro de téléphone (optionnel)",
-      "phone_help": "Incluez l'indicatif pays (ex: +33 pour la France)",
-      "company": "Entreprise",
-      "role": "Votre rôle",
-      "primary_interest": "Intérêt principal",
-      "primary_interest_placeholder": "Sélectionnez votre intérêt principal",
-      "interest_curious": "Juste curieux",
-      "interest_conversation": "Besoin d'échanger",
-      "interest_prototype": "Besoin d'un prototype rapide",
-      "interest_scale": "Prêt à passer à l'échelle",
-      "interest_unsure": "Je ne sais pas encore",
-      "project_description": "Parlez-nous de votre projet",
-      "project_placeholder": "Quels sont vos objectifs ? Quels défis rencontrez-vous ?"
-    },
-    "submit_button": "Envoyer le message",
-    "form": {
-      "validation": {
-        "email": "Veuillez entrer une adresse email valide (ex: utilisateur@domaine.com).",
-        "phone": "Veuillez entrer un numéro de téléphone valide (ex: +33 1 23 45 67 89).",
-        "required": "{champ} est requis."
-      },
-      "sending": "Envoi en cours...",
-      "success": "Merci !",
-      "success_message": "Nous vous répondrons bientôt.",
-      "error": "Veuillez corriger les erreurs dans le formulaire.",
-      "error_rate_limit": "Trop de tentatives. Veuillez réessayer dans quelques minutes.",
-      "error_submit": "Échec de l'envoi du formulaire",
-      "error_unknown": "Une erreur s'est produite"
-    }
-  },
   "aboutus": {
     "manifesto": {
       "page_title": "Manifeste TsunAImi",
