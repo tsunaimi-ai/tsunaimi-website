@@ -37,7 +37,7 @@ async function fetchRuntimeConfig(): Promise<PlatformConfig> {
       baseUrl,
       loginUrl: `${baseUrl}/auth/signin`,
       dashboardUrl: `${baseUrl}/dashboard`,
-      demoAgentUrl: `${baseUrl}/gateway/demo-agent`,
+      demoAgentUrl: `${baseUrl}/gateway/paul-calendar-demo`,
       consoleCalendarUrl: `${baseUrl}/console/calendar`,
       contactUrl: `${baseUrl}/contact`,
     };
