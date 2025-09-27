@@ -6,8 +6,16 @@ import { getPlatformUrl } from '@/lib/platform-config';
 export default function RegisterPage() {
   useEffect(() => {
     // Immediately redirect to platform signin (handles both signup and signin seamlessly)
-    const platformSigninUrl = getPlatformUrl('signin');
-    window.location.href = platformSigninUrl;
+    const redirectToPlatform = async () => {
+      try {
+        const platformSigninUrl = await getPlatformUrl('signin');
+        window.location.href = platformSigninUrl;
+      } catch (error) {
+        console.error('Failed to get platform URL:', error);
+        alert('Unable to connect to platform. Please try again.');
+      }
+    };
+    redirectToPlatform();
   }, []);
 
   return (

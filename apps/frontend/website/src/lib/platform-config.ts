@@ -12,32 +12,59 @@ export interface PlatformConfig {
   contactUrl: string;
 }
 
+// Cache for runtime configuration
+let configCache: PlatformConfig | null = null;
+
 /**
- * Get platform configuration from environment variables
- * Throws error if not configured - no fallbacks
+ * Get platform configuration from runtime API
+ * Fetches from server-side API to get environment-specific config
  */
-export function getPlatformConfig(): PlatformConfig {
-  const baseUrl = process.env.NEXT_PUBLIC_PLATFORM_URL;
-  
-  if (!baseUrl) {
-    throw new Error('NEXT_PUBLIC_PLATFORM_URL environment variable is required');
+async function fetchRuntimeConfig(): Promise<PlatformConfig> {
+  try {
+    const response = await fetch('/api/config');
+    if (!response.ok) {
+      throw new Error(`Config API failed: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const baseUrl = data.platformUrl;
+    
+    if (!baseUrl) {
+      throw new Error('Platform URL not configured');
+    }
+    
+    return {
+      baseUrl,
+      loginUrl: `${baseUrl}/auth/signin`,
+      dashboardUrl: `${baseUrl}/dashboard`,
+      demoAgentUrl: `${baseUrl}/gateway/demo-agent`,
+      consoleCalendarUrl: `${baseUrl}/console/calendar`,
+      contactUrl: `${baseUrl}/contact`,
+    };
+  } catch (error) {
+    console.error('Failed to fetch runtime config:', error);
+    throw new Error('Failed to load platform configuration');
   }
-  
-  return {
-    baseUrl,
-    loginUrl: `${baseUrl}/auth/signin`,
-    dashboardUrl: `${baseUrl}/dashboard`,
-    demoAgentUrl: `${baseUrl}/gateway/demo-agent`,
-    consoleCalendarUrl: `${baseUrl}/console/calendar`,
-    contactUrl: `${baseUrl}/contact`,
-  };
 }
 
 /**
- * Get platform URL for different actions
+ * Get platform configuration (async)
+ * Uses runtime API for environment-specific configuration
  */
-export function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar' | 'contact'): string {
-  const config = getPlatformConfig();
+export async function getPlatformConfig(): Promise<PlatformConfig> {
+  if (configCache) {
+    return configCache;
+  }
+  
+  configCache = await fetchRuntimeConfig();
+  return configCache;
+}
+
+/**
+ * Get platform URL for different actions (async)
+ */
+export async function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar' | 'contact'): Promise<string> {
+  const config = await getPlatformConfig();
   
   switch(type) {
     case 'signin': 

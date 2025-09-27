@@ -67,9 +67,14 @@ export default function Home() {
     return <LoadingSkeleton />;
   }
 
-  const handleContactClick = () => {
-    const platformContactUrl = getPlatformUrl('contact');
-    window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
+  const handleContactClick = async () => {
+    try {
+      const platformContactUrl = await getPlatformUrl('contact');
+      window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('Failed to get contact URL:', error);
+      alert('Unable to connect to platform. Please try again.');
+    }
   };
 
   const handleLinkedInClick = () => {

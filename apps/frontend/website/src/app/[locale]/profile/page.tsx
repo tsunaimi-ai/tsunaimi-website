@@ -6,8 +6,16 @@ import { getPlatformUrl } from '@/lib/platform-config';
 export default function ProfilePage() {
   useEffect(() => {
     // Redirect to platform profile/dashboard
-    const platformUrl = getPlatformUrl('dashboard'); // or specific profile URL
-    window.location.href = platformUrl;
+    const redirectToPlatform = async () => {
+      try {
+        const platformUrl = await getPlatformUrl('dashboard'); // or specific profile URL
+        window.location.href = platformUrl;
+      } catch (error) {
+        console.error('Failed to get platform URL:', error);
+        alert('Unable to connect to platform. Please try again.');
+      }
+    };
+    redirectToPlatform();
   }, []);
 
   return (

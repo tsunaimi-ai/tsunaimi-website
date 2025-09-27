@@ -33,11 +33,7 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Add ARG declarations for build arguments
-ARG NEXT_PUBLIC_PLATFORM_URL
-
-# Convert ARGs to ENVs
-ENV NEXT_PUBLIC_PLATFORM_URL=${NEXT_PUBLIC_PLATFORM_URL}
+# No build-time platform URL - will be configured at runtime
 
 # Build the application
 RUN npm run build
@@ -66,6 +62,7 @@ USER nextjs
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV FRONTEND_PORT_INTERNAL=3000
+# Platform URL will be set at runtime via docker-compose
 EXPOSE ${FRONTEND_PORT_INTERNAL}
 
 # Use dumb-init for proper signal handling

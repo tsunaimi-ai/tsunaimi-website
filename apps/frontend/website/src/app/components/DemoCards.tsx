@@ -66,16 +66,26 @@ export default function DemoCards() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const t = useTranslations('home.demo');
 
-  const handleTryDemo = () => {
-    // Redirect to the demo agent (environment-dependent)
-    const demoUrl = getPlatformUrl('demo');
-    window.open(demoUrl, '_blank', 'noopener,noreferrer');
+  const handleTryDemo = async () => {
+    try {
+      // Redirect to the demo agent (environment-dependent)
+      const demoUrl = await getPlatformUrl('demo');
+      window.open(demoUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('Failed to get demo URL:', error);
+      alert('Unable to connect to platform. Please try again.');
+    }
   };
 
-  const handleDeployAgent = () => {
-    // Redirect to console calendar
-    const consoleUrl = getPlatformUrl('console-calendar');
-    window.open(consoleUrl, '_blank', 'noopener,noreferrer');
+  const handleDeployAgent = async () => {
+    try {
+      // Redirect to console calendar
+      const consoleUrl = await getPlatformUrl('console-calendar');
+      window.open(consoleUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('Failed to get console URL:', error);
+      alert('Unable to connect to platform. Please try again.');
+    }
   };
 
   // Demo Image Component

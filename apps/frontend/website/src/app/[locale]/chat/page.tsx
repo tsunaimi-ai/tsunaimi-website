@@ -6,8 +6,16 @@ import { getPlatformUrl } from '@/lib/platform-config';
 export default function ChatPage() {
   useEffect(() => {
     // Redirect to platform chat/agents
-    const platformUrl = getPlatformUrl('dashboard'); // or specific chat URL
-    window.location.href = platformUrl;
+    const redirectToPlatform = async () => {
+      try {
+        const platformUrl = await getPlatformUrl('dashboard'); // or specific chat URL
+        window.location.href = platformUrl;
+      } catch (error) {
+        console.error('Failed to get platform URL:', error);
+        alert('Unable to connect to platform. Please try again.');
+      }
+    };
+    redirectToPlatform();
   }, []);
 
   return (

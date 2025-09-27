@@ -25,11 +25,16 @@ interface MenuPanelProps {
 export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuPanelProps) {
   const t = useTranslations('common.nav');
 
-  const handleLinkClick = (href: string) => {
+  const handleLinkClick = async (href: string) => {
     if (href === '#contact') {
-      const platformContactUrl = getPlatformUrl('contact');
-      window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
-      onClose();
+      try {
+        const platformContactUrl = await getPlatformUrl('contact');
+        window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
+        onClose();
+      } catch (error) {
+        console.error('Failed to get contact URL:', error);
+        alert('Unable to connect to platform. Please try again.');
+      }
     } else {
       onClose();
     }

@@ -12,11 +12,17 @@ interface LoginButtonProps {
 export default function LoginButton({ locale, className = '', onClick }: LoginButtonProps) {
   const t = useTranslations('common');
 
-  const handleClick = () => {
+  const handleClick = async () => {
     onClick?.();
-    // Direct redirect to platform signin
-    const platformSigninUrl = getPlatformUrl('signin');
-    window.location.href = platformSigninUrl;
+    try {
+      // Open platform signin in new tab (consistent with other platform links)
+      const platformSigninUrl = await getPlatformUrl('signin');
+      window.open(platformSigninUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('Failed to get platform URL:', error);
+      // Fallback or error handling
+      alert('Unable to connect to platform. Please try again.');
+    }
   };
 
   return (
