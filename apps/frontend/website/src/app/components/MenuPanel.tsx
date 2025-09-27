@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useState } from 'react';
-import ContactFormWrapper from './ContactFormWrapper';
+import { getPlatformUrl } from '@/lib/platform-config';
 import { useTranslations } from 'next-intl';
 import LoginButton from './LoginButton';
 
@@ -24,12 +23,13 @@ interface MenuPanelProps {
 }
 
 export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuPanelProps) {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const t = useTranslations('common.nav');
 
   const handleLinkClick = (href: string) => {
     if (href === '#contact') {
-      setIsContactFormOpen(true);
+      const platformContactUrl = getPlatformUrl('contact');
+      window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
+      onClose();
     } else {
       onClose();
     }
@@ -116,18 +116,6 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
         </div>
       </div>
 
-      {/* Contact Form */}
-      {isContactFormOpen && (
-        <ContactFormWrapper 
-          isOpen={isContactFormOpen} 
-          onClose={() => {
-            setIsContactFormOpen(false);
-            onClose();
-          }} 
-          locale={locale} 
-          messages={null}
-        />
-      )}
     </>
   );
 } 

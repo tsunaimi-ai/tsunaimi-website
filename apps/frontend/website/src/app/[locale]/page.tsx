@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import ContactFormWrapper from '../components/ContactFormWrapper';
 import { ScaleIcon, FoundationIcon, TargetIcon } from '../components/Icons';
 import DemoCards from '../components/DemoCards';
 import { getPlatformUrl } from '@/lib/platform-config';
@@ -40,7 +39,6 @@ function LoadingSkeleton() {
 }
 
 export default function Home() {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [messages, setMessages] = useState<any>(null);
   const t = useTranslations('home');
@@ -70,7 +68,8 @@ export default function Home() {
   }
 
   const handleContactClick = () => {
-    setIsContactFormOpen(true);
+    const platformContactUrl = getPlatformUrl('contact');
+    window.open(platformContactUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleLinkedInClick = () => {
@@ -148,14 +147,6 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex justify-center mt-12">
-                <button 
-                  onClick={handleLinkedInClick}
-                  className="bg-[#7057A0] hover:bg-[#251C6B] text-white text-xl font-bold py-4 px-8 rounded-lg transition-colors"
-                >
-                  {t('different.cta_button')}
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -178,25 +169,25 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6 p-6 bg-white rounded-lg shadow-lg">
+              <div className="space-y-6 p-6 bg-white rounded-lg transition-all duration-300 cursor-pointer transform-gpu perspective-1000 hover:scale-105 shadow-lg hover:shadow-[0_25px_50px_-12px_rgba(112,87,160,0.25),0_0_0_1px_rgba(112,87,160,0.05)]">
                 <h3 className="text-xl md:text-2xl font-bold text-[#251C6B]">{t('offerings.service1.title')}</h3>
                 <p className="text-lg md:text-xl text-[#111827]">{t('offerings.service1.desc')}</p>
                 <p className="text-lg md:text-xl text-[#7057A0]">{t('offerings.service1.sub')}</p>
               </div>
 
-              <div className="space-y-6 p-6 bg-white rounded-lg shadow-lg">
+              <div className="space-y-6 p-6 bg-white rounded-lg transition-all duration-300 cursor-pointer transform-gpu perspective-1000 hover:scale-105 shadow-lg hover:shadow-[0_25px_50px_-12px_rgba(112,87,160,0.25),0_0_0_1px_rgba(112,87,160,0.05)]">
                 <h3 className="text-xl md:text-2xl font-bold text-[#251C6B]">{t('offerings.service2.title')}</h3>
                 <p className="text-lg md:text-xl text-[#111827]">{t('offerings.service2.desc')}</p>
                 <p className="text-lg md:text-xl text-[#7057A0]">{t('offerings.service2.sub')}</p>
               </div>
 
-              <div className="space-y-6 p-6 bg-white rounded-lg shadow-lg">
+              <div className="space-y-6 p-6 bg-white rounded-lg transition-all duration-300 cursor-pointer transform-gpu perspective-1000 hover:scale-105 shadow-lg hover:shadow-[0_25px_50px_-12px_rgba(112,87,160,0.25),0_0_0_1px_rgba(112,87,160,0.05)]">
                 <h3 className="text-xl md:text-2xl font-bold text-[#251C6B]">{t('offerings.service3.title')}</h3>
                 <p className="text-lg md:text-xl text-[#111827]">{t('offerings.service3.desc')}</p>
                 <p className="text-lg md:text-xl text-[#7057A0]">{t('offerings.service3.sub')}</p>
               </div>
 
-              <div className="space-y-6 p-6 bg-white rounded-lg shadow-lg">
+              <div className="space-y-6 p-6 bg-white rounded-lg transition-all duration-300 cursor-pointer transform-gpu perspective-1000 hover:scale-105 shadow-lg hover:shadow-[0_25px_50px_-12px_rgba(112,87,160,0.25),0_0_0_1px_rgba(112,87,160,0.05)]">
                 <h3 className="text-xl md:text-2xl font-bold text-[#251C6B]">{t('offerings.service4.title')}</h3>
                 <p className="text-lg md:text-xl text-[#111827]">{t('offerings.service4.desc')}</p>
                 <p className="text-lg md:text-xl text-[#7057A0]">{t('offerings.service4.sub')}</p>
@@ -272,15 +263,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Form */}
-      {mounted && isContactFormOpen && (
-        <ContactFormWrapper 
-          isOpen={isContactFormOpen} 
-          onClose={() => setIsContactFormOpen(false)} 
-          locale={locale} 
-          messages={null}
-        />
-      )}
     </div>
   );
 } 

@@ -30,8 +30,7 @@ function NavigationContent({ locale, messages, children }: LayoutContentProps) {
       name: messages.common.nav.ai_agents,
       href: `/${locale}/ai-agents`,
       submenu: [
-        { name: messages.common.nav.ai_agents_submenu.overview, href: `/${locale}/ai-agents` },
-        { name: messages.common.nav.ai_agents_submenu.chat, href: `/${locale}/chat` }
+        { name: messages.common.nav.ai_agents_submenu.overview, href: `/${locale}/ai-agents` }
       ]
     },
     { name: messages.common.nav.contact, href: '#contact' }

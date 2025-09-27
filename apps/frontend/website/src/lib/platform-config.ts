@@ -9,6 +9,7 @@ export interface PlatformConfig {
   dashboardUrl: string;
   demoAgentUrl: string;
   consoleCalendarUrl: string;
+  contactUrl: string;
 }
 
 /**
@@ -28,13 +29,14 @@ export function getPlatformConfig(): PlatformConfig {
     dashboardUrl: `${baseUrl}/dashboard`,
     demoAgentUrl: `${baseUrl}/gateway/demo-agent`,
     consoleCalendarUrl: `${baseUrl}/console/calendar`,
+    contactUrl: `${baseUrl}/contact`,
   };
 }
 
 /**
  * Get platform URL for different actions
  */
-export function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar'): string {
+export function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar' | 'contact'): string {
   const config = getPlatformConfig();
   
   switch(type) {
@@ -46,6 +48,8 @@ export function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-
       return config.demoAgentUrl;
     case 'console-calendar':
       return config.consoleCalendarUrl;
+    case 'contact':
+      return config.contactUrl;
     default:
       return config.baseUrl;
   }
