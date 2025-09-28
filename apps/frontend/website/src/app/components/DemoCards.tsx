@@ -18,7 +18,7 @@ interface DemoCardProps {
 function DemoCard({ title, description, buttonText, onClick, image, isHovered, onHover }: DemoCardProps) {
   return (
     <div 
-      className="bg-[#F9FAFB] rounded-lg p-6 transition-all duration-300 cursor-pointer transform-gpu perspective-1000"
+      className="bg-tsunaimi-background-light rounded-lg p-6 transition-all duration-300 cursor-pointer transform-gpu perspective-1000"
       style={{
         transform: isHovered ? 'scale(1.05)' : 'scale(1)',
         boxShadow: isHovered 
@@ -33,7 +33,7 @@ function DemoCard({ title, description, buttonText, onClick, image, isHovered, o
       {/* Image/Icon Section */}
       <div className="flex justify-center mb-6">
         {image || (
-          <div className="w-32 h-32 bg-gradient-to-br from-[#7057A0] to-[#251C6B] rounded-xl flex items-center justify-center">
+          <div className="w-32 h-32 bg-gradient-to-br from-brand-primary-light to-brand-primary rounded-xl flex items-center justify-center">
             <div className="w-16 h-16 bg-white/20 rounded-lg"></div>
           </div>
         )}
@@ -41,11 +41,11 @@ function DemoCard({ title, description, buttonText, onClick, image, isHovered, o
       
       {/* Content */}
       <div className="text-center space-y-4">
-        <h3 className="text-xl md:text-2xl font-bold text-[#251C6B]">{title}</h3>
-        <p className="text-[#111827] leading-relaxed">{description}</p>
+        <h3 className="text-xl md:text-2xl font-bold text-brand-primary">{title}</h3>
+        <p className="text-tsunaimi-gray-dark leading-relaxed">{description}</p>
         <button 
-          className={`inline-flex items-center text-[#7057A0] font-semibold transition-colors ${
-            isHovered ? 'text-[#251C6B]' : 'hover:text-[#251C6B]'
+          className={`inline-flex items-center text-brand-primary-light font-semibold transition-colors ${
+            isHovered ? 'text-brand-primary' : 'hover:text-brand-primary'
           }`}
           onClick={(e) => {
             e.stopPropagation();

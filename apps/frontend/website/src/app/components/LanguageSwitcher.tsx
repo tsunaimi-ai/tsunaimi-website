@@ -24,19 +24,19 @@ export default function LanguageSwitcher({ locale, className = '' }: LanguageSwi
         onClick={() => handleLanguageSwitch('en')}
         className={`px-4 py-2 rounded-md transition-colors ${
           locale === 'en'
-            ? 'bg-[#7057A0] text-white'
-            : 'text-[#251C6B] hover:text-[#7057A0]'
+            ? 'bg-brand-primary-light text-white'
+            : 'text-brand-primary hover:text-brand-primary-light'
         }`}
       >
         EN
       </button>
-      <span className="text-[#251C6B]">/</span>
+      <span className="text-brand-primary">/</span>
       <button
         onClick={() => handleLanguageSwitch('fr')}
         className={`px-4 py-2 rounded-md transition-colors ${
           locale === 'fr'
-            ? 'bg-[#7057A0] text-white'
-            : 'text-[#251C6B] hover:text-[#7057A0]'
+            ? 'bg-brand-primary-light text-white'
+            : 'text-brand-primary hover:text-brand-primary-light'
         }`}
       >
         FR

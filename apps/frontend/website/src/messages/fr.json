@@ -15,7 +15,7 @@
       },
       "contact": "Contact",
       "profile": "Profil",
-      "login": "Se connecter",
+      "login": "Connexion",
       "logout": "Déconnexion",
       "logging_in": "Connexion en cours...",
       "logging_out": "Déconnexion en cours..."
@@ -44,12 +44,19 @@
   },
   "home": {
     "hero": {
-      "headline": "Les meilleures pratiques d'hier brident le potentiel de l'IA.",
-      "subheadline1": "Les modes de pensée traditionnels ne fonctionnent pas.",
-      "subheadline2": "On peut vous aider à passer à la suite.",
-      "cta_button": "Suivez-nous et voyez comment ça se passe chez nous."
+      "headline": "Vos agents IA ne passeront pas à l’échelle sans plateforme.",
+      "subheadline": "Nous platforme modulaire et nos services de développement permettent à vos PoCs agentic de passer à l'échelle.",
+      "cta_button": "Prendre rendez-vous"
+    },
+    "problem": {
+      "main_title": "Le problème que nous résolvons",
+      "subtitle": "pourquoi la plupart des projets IA/agents stagnent",
+      "point1": "Les PoCs ne passent pas à l'échelle. Pas d'orchestration, de gouvernance ou d'observabilité partagées.",
+      "point2": "L'agentique nécessite de la plomberie. Outils, mémoire, politiques et HITL avant qu'un agent ne soit déployé.",
+      "point3": "Tout le monde reconstruit 80%. Gardez votre sauce secrète pour l'agent, pas pour l'échafaudage."
     },
     "demo": {
+      "section_title": "Voyez en Action",
       "headline": "Démo : votre assistant en charge de votre agenda",
       "subheadline": "Un exemple concret de ce que notre plateforme permet de créer.",
         "try_demo": {

@@ -14,18 +14,18 @@ export default function Footer() {
             <div className="mb-4">
               <Logo variant="full" />
             </div>
-            <p className="text-[#251C6B] text-base text-center md:text-left">
+            <p className="text-brand-primary text-base text-center md:text-left">
               {t('tagline')}
             </p>
           </div>
           <div className="flex flex-col items-center md:items-end justify-center">
-            <h3 className="text-xl font-bold mb-4 text-[#251C6B] text-center md:text-right">{t('connect')}</h3>
-            <div className="text-[#251C6B] text-base text-center md:text-right">
+            <h3 className="text-xl font-bold mb-4 text-brand-primary text-center md:text-right">{t('connect')}</h3>
+            <div className="text-brand-primary text-base text-center md:text-right">
               <p className="mb-1">{t('wave')}</p>
               <p>{t('linkedin')}{' '}
                 <a 
                   href="https://www.linkedin.com/company/tsunaimi" 
-                  className="text-[#7057A0] hover:text-[#251C6B] transition-colors font-medium"
+                  className="text-brand-primary-light hover:text-brand-primary transition-colors font-medium"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -36,7 +36,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-[#7057A0] text-center text-[#251C6B]">
+        <div className="mt-8 pt-8 border-t border-brand-primary-light text-center text-brand-primary">
           <p>&copy; {new Date().getFullYear()} TsunAImi. {t('rights')}</p>
         </div>
       </div>

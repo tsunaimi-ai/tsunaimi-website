@@ -15,7 +15,7 @@
       },
       "contact": "Contact",
       "profile": "Profile",
-      "login": "Sign In",
+      "login": "Platform Login",
       "logout": "Logout",
       "logging_in": "Logging in...",
       "logging_out": "Logging out..."
@@ -64,7 +64,20 @@
       "subheadline2": "We're here to fix that.",
       "cta_button": "Follow Us - See AI in Action"
     },
+    "hero": {
+      "headline": "Your AI agents won't scale without a platform.",
+      "subheadline": "We provide the modular infrastructure and build services that turn PoCs into production‑grade agents.",
+      "cta_button": "Book a Call"
+    },
+    "problem": {
+      "main_title": "Problem we solve",
+      "subtitle": "why most AI/agent projects stall",
+      "point1": "PoCs don't scale. No shared orchestration, governance, or observability.",
+      "point2": "Agentic needs plumbing. Tools, memory, policies, and HITL before any agent ships.",
+      "point3": "Everyone rebuilds 80%. Keep your secret sauce for the agent, not the scaffolding."
+    },
     "demo": {
+      "section_title": "See It In Action",
       "headline": "The Calendar Manager is our first demo agent.",
       "subheadline": "A concrete example of what our platform enables you to build.",
       "try_demo": {

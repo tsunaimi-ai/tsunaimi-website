@@ -26,7 +26,7 @@ export default function NavigationClient({ locale, navigation, isMenuOpen, onMen
   const t = useTranslations('common.nav');
 
   return (
-    <nav className="bg-white backdrop-blur-sm shadow-lg fixed w-full z-[997] border-b border-[#E5E7EB]">
+    <nav className="bg-white backdrop-blur-sm shadow-lg fixed w-full z-[997] border-b border-tsunaimi-gray-light">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -41,7 +41,7 @@ export default function NavigationClient({ locale, navigation, isMenuOpen, onMen
             </div>
             <button
               onClick={onMenuToggle}
-              className="text-[#251C6B] hover:text-[#7057A0] transition-colors p-2"
+              className="text-brand-primary hover:text-brand-primary-light transition-colors p-2"
               aria-label="Toggle menu"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

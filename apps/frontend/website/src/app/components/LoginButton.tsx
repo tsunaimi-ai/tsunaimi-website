@@ -28,7 +28,7 @@ export default function LoginButton({ locale, className = '', onClick }: LoginBu
   return (
     <button
       onClick={handleClick}
-      className={`bg-[#7057A0] hover:bg-[#251C6B] text-white px-6 py-3 rounded-lg transition-colors text-sm font-medium ${className}`}
+      className={`bg-white text-brand-primary hover:bg-tsunaimi-gray-light transition-colors px-6 py-3 rounded-lg text-sm font-medium shadow-sm hover:shadow-md ${className}`}
     >
       {t('nav.login')}
     </button>
