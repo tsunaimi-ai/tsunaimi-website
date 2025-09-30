@@ -1,0 +1,22 @@
+system_version: v0.5.10
+date: 2025-09-30
+components:
+  frontend:
+    website: v0.5.10
+notes: |
+Release Notes 0.5.10
+ - Updated AI Agents page with new content
+Release Notes 0.5.9
+ - Updated home page with new content
+Release Notes 0.5.8
+ - Fixed target environment based on runtime environment variable and not baked into image.
+Release Notes 0.5.7
+ - Fixed navigations
+ - Removed contact form code to make the website pure marketing website
+Release Notes 0.5.6
+ - Updated home page with platform narrative
+Release Notes 0.5.5
+ - Re-designed the hero section on the home page
+Release Notes 0.5.4
+ - Simplified website by removing authentication logic
+ - Replaced previous Login by Sign In button using tsunaimi-platform
