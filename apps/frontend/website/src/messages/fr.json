@@ -8,7 +8,7 @@
         "story": "Notre Histoire",
         "team": "L'équipe"
       },
-      "ai_agents": "Agents IA",
+      "ai_agents": "Plateforme Agents IA",
       "ai_agents_submenu": {
         "overview": "Aperçu",
         "chat": "Discuter avec l'IA"
@@ -44,8 +44,8 @@
   },
   "home": {
     "hero": {
-      "headline": "Vos agents IA ne passeront pas à l’échelle sans plateforme.",
-      "subheadline": "Nous platforme modulaire et nos services de développement permettent à vos PoCs agentic de passer à l'échelle.",
+      "headline": "Vos PoC d’IA ne passeront pas à l’échelle sans une stratégie de plateforme.",
+      "subheadline": "Construire ou acheter. Nous fournissons l’infrastructure modulaire et l’expertise nécessaires pour faire passer vos PoC AI en production et atteindre un impact mesurable.",
       "cta_button": "Prendre rendez-vous"
     },
     "problem": {
@@ -260,8 +260,24 @@
     }
   },
   "ai_agents": {
-    "title": "Agents IA",
-    "description": "Découvrez notre suite d'outils alimentés par l'IA conçus pour optimiser votre processus de recrutement et trouver les candidats parfaits pour votre équipe."
+    "title": "Plateforme Agents IA",
+    "subtitle": "L'infrastructure modulaire qui transforme les PoCs en agents de niveau production",
+    "section1": {
+      "title": "Titre Section 1",
+      "description": "Description de la section 1 ici."
+    },
+    "section2": {
+      "title": "Titre Section 2",
+      "description": "Description de la section 2 ici."
+    },
+    "section3": {
+      "title": "Titre Section 3", 
+      "description": "Description de la section 3 ici."
+    },
+    "section4": {
+      "title": "Titre Section 4",
+      "description": "Description de la section 4 ici."
+    }
   },
   "login": {
     "title": "Heureux de vous revoir",

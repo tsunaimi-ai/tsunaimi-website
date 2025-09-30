@@ -8,7 +8,7 @@
         "story": "Our Story",
         "team": "Meet the Team"
       },
-      "ai_agents": "AI Agents",
+      "ai_agents": "AI Agents Platform",
       "ai_agents_submenu": {
         "overview": "Overview",
         "chat": "Chat with AI"
@@ -65,8 +65,8 @@
       "cta_button": "Follow Us - See AI in Action"
     },
     "hero": {
-      "headline": "Your AI agents won't scale without a platform.",
-      "subheadline": "We provide the modular infrastructure and build services that turn PoCs into production‑grade agents.",
+      "headline": "Your AI PoCs won't scale without a platform strategy.",
+      "subheadline": "Build or buy. We provide the modular infrastructure and expertise to take your agent PoCs to production, and scale measurable impact.",
       "cta_button": "Book a Call"
     },
     "problem": {
@@ -276,7 +276,24 @@
     }
   },
   "ai_agents": {
-    "title": "AI Agents"
+    "title": "AI Agents Platform",
+    "subtitle": "The modular infrastructure that turns PoCs into production-grade agents",
+    "section1": {
+      "title": "Section 1 Title",
+      "description": "Section 1 description goes here."
+    },
+    "section2": {
+      "title": "Section 2 Title", 
+      "description": "Section 2 description goes here."
+    },
+    "section3": {
+      "title": "Section 3 Title",
+      "description": "Section 3 description goes here."
+    },
+    "section4": {
+      "title": "Section 4 Title",
+      "description": "Section 4 description goes here."
+    }
   },
   "login": {
     "title": "Sign in to your account",
