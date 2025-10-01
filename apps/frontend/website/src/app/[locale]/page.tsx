@@ -95,13 +95,19 @@ export default function Home() {
                 </p>
               </div>
               
-              {/* CTA Button */}
-              <div className="pt-4">
+              {/* CTA Buttons */}
+              <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
                   onClick={handleContactClick}
                   className="inline-block px-8 py-4 bg-white text-brand-primary hover:bg-tsunaimi-gray-light transition-colors font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                 >
                   {t('hero.cta_button')}
+                </button>
+                <button 
+                  onClick={() => window.location.href = `/${locale}/ai-agents`}
+                  className="inline-block px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-brand-primary transition-colors font-bold rounded-lg text-lg"
+                >
+                  {t('hero.secondary_button')}
                 </button>
               </div>
             </div>

@@ -67,7 +67,8 @@
     "hero": {
       "headline": "Your AI PoCs won't scale without a platform strategy.",
       "subheadline": "Build or buy. We provide the modular infrastructure and expertise to take your agent PoCs to production, and scale measurable impact.",
-      "cta_button": "Book a Call"
+      "cta_button": "Book a Call",
+      "secondary_button": "Platform Benefits"
     },
     "problem": {
       "main_title": "Problem we solve",
@@ -276,23 +277,14 @@
     }
   },
   "ai_agents": {
-    "title": "AI Agents Platform",
-    "subtitle": "The modular infrastructure that turns PoCs into production-grade agents",
+    "title": "Build or Buy: Scale AI Agents Economically",
+    "subtitle": "Mutualize the plumbing. Invest in your differentiation.",
     "section1": {
-      "title": "Section 1 Title",
-      "description": "Section 1 description goes here."
-    },
-    "section2": {
-      "title": "Section 2 Title", 
-      "description": "Section 2 description goes here."
-    },
-    "section3": {
-      "title": "Section 3 Title",
-      "description": "Section 3 description goes here."
-    },
-    "section4": {
-      "title": "Section 4 Title",
-      "description": "Section 4 description goes here."
+      "title": "From PoC to Production-Ready AI Agents",
+      "part1": "To move from a chatbot to real agents, teams need more than an LLM call: orchestration, guardrails, memory/RAG, auth/SSO, rate limits, and observability.",
+      "part2": "When you build that plumbing yourself, every agent repeats the work, leading to months before production, high ops cost, limited scale.",
+      "part3": "With TsunAImi, the shared foundation is already there. You focus on the agent's logic and tools (Calendar, Email, CRM). The result is weeks to production, predictable costs, governed operations, and reuse across agents and teams.",
+      "part4": "PoCs prove it works. A platform makes it work at scale."
     }
   },
   "login": {

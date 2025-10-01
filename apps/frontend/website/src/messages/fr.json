@@ -44,9 +44,10 @@
   },
   "home": {
     "hero": {
-      "headline": "Vos PoC d’IA ne passeront pas à l’échelle sans une stratégie de plateforme.",
-      "subheadline": "Construire ou acheter. Nous fournissons l’infrastructure modulaire et l’expertise nécessaires pour faire passer vos PoC AI en production et atteindre un impact mesurable.",
-      "cta_button": "Prendre rendez-vous"
+      "headline": "Vos PoC d'IA ne passeront pas à l'échelle sans une stratégie de plateforme.",
+      "subheadline": "Construire ou acheter. Nous fournissons l'infrastructure modulaire et l'expertise nécessaires pour faire passer vos PoC AI en production et atteindre un impact mesurable.",
+      "cta_button": "Prendre rendez-vous",
+      "secondary_button": "Avantages Plateforme"
     },
     "problem": {
       "main_title": "Le problème que nous résolvons",
@@ -260,23 +261,14 @@
     }
   },
   "ai_agents": {
-    "title": "Plateforme Agents IA",
-    "subtitle": "L'infrastructure modulaire qui transforme les PoCs en agents de niveau production",
+    "title": "Construire ou acheter : scaler vos agents IA au meilleur coût",
+    "subtitle": "Mutualisez la plomberie. Investissez dans votre différenciation.",
     "section1": {
-      "title": "Titre Section 1",
-      "description": "Description de la section 1 ici."
-    },
-    "section2": {
-      "title": "Titre Section 2",
-      "description": "Description de la section 2 ici."
-    },
-    "section3": {
-      "title": "Titre Section 3", 
-      "description": "Description de la section 3 ici."
-    },
-    "section4": {
-      "title": "Titre Section 4",
-      "description": "Description de la section 4 ici."
+      "title": "Du PoC à des agents IA prêts pour la production",
+      "part1": "Pour passer d'un chatbot à de vrais agents, il faut bien plus qu'un appel LLM : orchestration, garde-fous, mémoire/RAG, auth/SSO, quotas et observabilité.",
+      "part2": "Chaque fois que vous voulez déployer un nouvel agent, il faut reconstruire cette plomberie, entraînant du temps de latence à chaque lancement, un surcoût de développement important, et une scalabilité limitée.",
+      "part3": "Avec TsunAImi, le socle existe déjà. Vous vous concentrez sur la logique de l'agent et ses outils (Calendrier, Email, CRM). Résultat : quelques semaines pour la mise en production, des coûts maîtrisés, une gouvernance intégrée et mutualisation pour chaque agent.",
+      "part4": "Un PoC prouve que ça marche. Une plateforme fait passer à l'échelle."
     }
   },
   "login": {
