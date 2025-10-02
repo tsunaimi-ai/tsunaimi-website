@@ -35,6 +35,15 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
         console.error('Failed to get contact URL:', error);
         alert('Unable to connect to platform. Please try again.');
       }
+    } else if (href === '#release-notes') {
+      try {
+        const platformReleaseNotesUrl = await getPlatformUrl('release-notes');
+        window.open(platformReleaseNotesUrl, '_blank', 'noopener,noreferrer');
+        onClose();
+      } catch (error) {
+        console.error('Failed to get release notes URL:', error);
+        alert('Unable to connect to platform. Please try again.');
+      }
     } else {
       onClose();
     }
@@ -77,20 +86,30 @@ export default function MenuPanel({ isOpen, onClose, navigation, locale }: MenuP
                   <h3 className="text-xl font-semibold text-brand-primary mb-2">{item.name}</h3>
                   <div className="pl-4 space-y-2">
                     {item.submenu.map((subitem) => (
-                      <Link 
-                        key={subitem.name} 
-                        href={subitem.href} 
-                        className="text-lg text-brand-primary hover:text-brand-primary-light transition-colors block"
-                        onClick={() => handleLinkClick(subitem.href)}
-                      >
-                        {subitem.name}
-                      </Link>
+                      subitem.href === '#release-notes' ? (
+                        <button
+                          key={subitem.name}
+                          onClick={() => handleLinkClick(subitem.href)}
+                          className="text-lg text-brand-primary hover:text-brand-primary-light transition-colors block w-full text-left"
+                        >
+                          {subitem.name}
+                        </button>
+                      ) : (
+                        <Link 
+                          key={subitem.name} 
+                          href={subitem.href} 
+                          className="text-lg text-brand-primary hover:text-brand-primary-light transition-colors block"
+                          onClick={() => handleLinkClick(subitem.href)}
+                        >
+                          {subitem.name}
+                        </Link>
+                      )
                     ))}
                   </div>
                 </div>
               ) : (
                 <div key={item.name} className="mb-4">
-                  {item.href === '#contact' ? (
+                  {item.href === '#contact' || item.href === '#release-notes' ? (
                     <button
                       onClick={() => handleLinkClick(item.href)}
                       className="text-xl font-semibold text-brand-primary hover:text-brand-primary-light transition-colors block w-full text-left"

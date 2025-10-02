@@ -8,10 +8,10 @@
         "story": "Our Story",
         "team": "Meet the Team"
       },
-      "ai_agents": "AI Agents Platform",
+      "ai_agents": "Agentic Platform",
       "ai_agents_submenu": {
         "overview": "Overview",
-        "chat": "Chat with AI"
+        "release_notes": "Release Notes"
       },
       "contact": "Contact",
       "profile": "Profile",

@@ -10,6 +10,7 @@ export interface PlatformConfig {
   demoAgentUrl: string;
   consoleCalendarUrl: string;
   contactUrl: string;
+  releaseNotesUrl: string;
 }
 
 // Cache for runtime configuration
@@ -40,6 +41,7 @@ async function fetchRuntimeConfig(): Promise<PlatformConfig> {
       demoAgentUrl: `${baseUrl}/gateway/paul-calendar-demo`,
       consoleCalendarUrl: `${baseUrl}/console/calendar`,
       contactUrl: `${baseUrl}/contact`,
+      releaseNotesUrl: `${baseUrl}/knowledge/release-notes`,
     };
   } catch (error) {
     console.error('Failed to fetch runtime config:', error);
@@ -63,7 +65,7 @@ export async function getPlatformConfig(): Promise<PlatformConfig> {
 /**
  * Get platform URL for different actions (async)
  */
-export async function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar' | 'contact'): Promise<string> {
+export async function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'console-calendar' | 'contact' | 'release-notes'): Promise<string> {
   const config = await getPlatformConfig();
   
   switch(type) {
@@ -77,6 +79,8 @@ export async function getPlatformUrl(type: 'signin' | 'dashboard' | 'demo' | 'co
       return config.consoleCalendarUrl;
     case 'contact':
       return config.contactUrl;
+    case 'release-notes':
+      return config.releaseNotesUrl;
     default:
       return config.baseUrl;
   }

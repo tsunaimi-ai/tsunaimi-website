@@ -27,7 +27,8 @@ export default function Navigation({ locale }: NavigationProps) {
       name: t('ai_agents'),
       href: '/ai-agents',
       submenu: [
-        { name: t('ai_agents_submenu.overview'), href: '/ai-agents' }
+        { name: t('ai_agents_submenu.overview'), href: '/ai-agents' },
+        { name: t('ai_agents_submenu.release_notes'), href: '#release-notes' }
       ]
     },
     { name: t('contact'), href: '/contact' }

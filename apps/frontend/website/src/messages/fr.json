@@ -8,10 +8,10 @@
         "story": "Notre Histoire",
         "team": "L'équipe"
       },
-      "ai_agents": "Plateforme Agents IA",
+      "ai_agents": "Plateforme Agentique",
       "ai_agents_submenu": {
         "overview": "Aperçu",
-        "chat": "Discuter avec l'IA"
+        "release_notes": "Notes de Version"
       },
       "contact": "Contact",
       "profile": "Profil",
