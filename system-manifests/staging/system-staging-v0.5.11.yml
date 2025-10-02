@@ -1,9 +1,11 @@
-system_version: v0.5.10
-date: 2025-10-01
+system_version: v0.5.11
+date: 2025-10-02
 components:
   frontend:
-    website: v0.5.10
+    website: v0.5.11
 notes: |
+Release Notes 0.5.11
+ - Added release notes to Agentic Platform page
 Release Notes 0.5.10
  - Updated AI Agents page with new content
 Release Notes 0.5.9
