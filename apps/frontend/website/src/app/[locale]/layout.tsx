@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import LayoutContent from '../components/LayoutContent';
 import { Metadata } from 'next';
+import type { ResolvingMetadata } from 'next';
 
 export function generateStaticParams() {
   return [
@@ -33,7 +34,7 @@ export const viewport = {
 
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: string }> },
-  parent: { metadata: Metadata }
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
   const messages = await getMessages(locale);
@@ -47,7 +48,6 @@ export async function generateMetadata(
   const imageUrl = 'https://tsunaimi.ai/assets/images/hero1.jpeg';
 
   return {
-    ...parent.metadata,
     title: {
       default: title,
       template: '%s | TsunAImi'

@@ -44,8 +44,12 @@
   },
   "home": {
     "hero": {
-      "headline": "Vos PoC d'IA ne passeront pas à l'échelle sans une stratégie de plateforme.",
-      "subheadline": "Construire ou acheter. Nous fournissons l'infrastructure modulaire et l'expertise nécessaires pour faire passer vos PoC AI en production et atteindre un impact mesurable.",
+      "headline": "Nous construisons et opérons des agents IA pour votre entreprise",
+      "subheadline": "Notre plateforme offre quatre avantages clés qui transforment la façon dont vous déployez et faites évoluer vos agents IA",
+      "benefit1": "Nous construisons et opérons des agents IA qui s'intègrent parfaitement dans votre écosystème d'entreprise.",
+      "benefit2": "Notre architecture micro-frontend modulaire garantit une expérience utilisateur cohérente sur toutes les interfaces.",
+      "benefit3": "Notre infrastructure entièrement conteneurisée assure la stabilité à long terme des solutions, même avec l'évolution technologique.",
+      "benefit4": "Et parce que tout est conçu pour évoluer facilement, nous minimisons les coûts de construction et d'exploitation tout en accélérant la livraison.",
       "cta_button": "Prendre rendez-vous",
       "secondary_button": "Avantages Plateforme"
     },

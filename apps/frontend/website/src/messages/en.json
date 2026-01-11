@@ -65,14 +65,18 @@
       "cta_button": "Follow Us - See AI in Action"
     },
     "hero": {
-      "headline": "Your AI PoCs won't scale without a platform strategy.",
-      "subheadline": "Build or buy. We provide the modular infrastructure and expertise to take your agent PoCs to production, and scale measurable impact.",
+      "headline": "We build and run AI agents for your business",
+      "subheadline": "Our platform delivers four key advantages that transform how you deploy and scale AI agents",
+      "benefit1": "We build and operate AI agents that seamlessly integrate into your business ecosystem.",
+      "benefit2": "Our modular micro-frontend architecture ensures a consistent user experience across all interfaces.",
+      "benefit3": "Our fully containerized infrastructure guarantees long-term solution stability, even as technology evolves.",
+      "benefit4": "And because everything is designed to scale seamlessly, we minimize build-and-run costs while accelerating delivery.",
       "cta_button": "Book a Call",
       "secondary_button": "Platform Benefits"
     },
     "problem": {
       "main_title": "Problem we solve",
-      "subtitle": "why most AI/agent projects stall",
+      "subtitle": "Why most AI/agent projects stall",
       "point1": "PoCs don't scale. No shared orchestration, governance, or observability.",
       "point2": "Agentic needs plumbing. Tools, memory, policies, and HITL before any agent ships.",
       "point3": "Everyone rebuilds 80%. Keep your secret sauce for the agent, not the scaffolding."
