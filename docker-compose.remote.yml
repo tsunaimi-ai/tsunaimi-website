@@ -1,0 +1,32 @@
+# Variables required for deployment
+# - TARGET_ENV
+# - PROJECT_NAME
+# - PROJECT_PREFIX
+# - VERSION
+
+
+services:
+  website:
+    build:
+      context: ./apps/frontend/website
+      dockerfile: Dockerfile
+      target: production
+      args:
+        - NEXT_PUBLIC_PLATFORM_URL=${NEXT_PUBLIC_PLATFORM_URL}
+    image: ${PROJECT_PREFIX}-website:v${VERSION}
+    container_name: ${PROJECT_PREFIX}-website-${TARGET_ENV}-v${VERSION}
+    restart: unless-stopped
+    env_file:
+      - .env.${TARGET_ENV}
+    environment:
+      - NEXT_PUBLIC_APP_ENV=production  # Explicitly set the app environment
+      - HOST=0.0.0.0 # Allow Next.js server to be accessed from outside the container
+    ports:
+      - "${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}"
+    networks:
+      - shared-network  # Referenced from the shared-network section
+
+networks:
+  shared-network:
+    external: true
+    name: ${PROJECT_PREFIX}-network-${TARGET_ENV}
