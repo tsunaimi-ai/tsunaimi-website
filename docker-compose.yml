@@ -1,5 +1,5 @@
 services:
-  website:
+  tsunaimi-website:
     build:
       context: ./apps/frontend/website
       dockerfile: Dockerfile
